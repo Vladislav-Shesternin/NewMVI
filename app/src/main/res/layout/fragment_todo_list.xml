@@ -9,6 +9,10 @@
             name="todoList"
             type="com.example.newmvi.ui.fragments.todoList.TodoListFragment" />
 
+        <variable
+            name="todoListViewModel"
+            type="com.example.newmvi.viewModels.TodoListViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +47,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/state_fab"
-            android:onClick="@{() -> todoList.navigateToFragmentTodoCreator()}"
+            android:onClick="@{() -> todoListViewModel.navigateToTodoCreatorFragment()}"
             android:padding="10dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_add_24"

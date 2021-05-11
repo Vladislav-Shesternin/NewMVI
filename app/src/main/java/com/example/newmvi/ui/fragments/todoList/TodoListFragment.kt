@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.example.newmvi.databinding.FragmentTodoListBinding
 import com.example.newmvi.viewModels.TodoListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,6 +45,7 @@ class TodoListFragment : Fragment() {
         FragmentTodoListBinding.inflate(layoutInflater).apply {
             binding = this
             todoList = this@TodoListFragment
+            todoListViewModel = viewModel
             return root
         }
     }
@@ -89,11 +89,6 @@ class TodoListFragment : Fragment() {
             visibility = View.GONE
             cancelAnimation()
         }
-    }
-
-    fun navigateToFragmentTodoCreator() {
-        val action = TodoListFragmentDirections.actionTodoListToTodoCreatorFragment()
-        findNavController().navigate(action)
     }
 
     val onItemClick: (TextView?) -> Unit = {
