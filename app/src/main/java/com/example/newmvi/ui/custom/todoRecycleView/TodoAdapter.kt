@@ -40,7 +40,7 @@ class TodoAdapter : ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffCallback()
         holder.bind(getItem(position))
     }
 
-    var onItemClick: (TextView?) -> Unit = { }
+    var onItemClick: (TextView) -> Unit = { }
 
     // ------------------------------------------------------------
     //                  ViewHolder

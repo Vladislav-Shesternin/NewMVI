@@ -1,5 +1,6 @@
 package com.example.newmvi.viewModels
 
+import android.util.Log
 import com.example.newmvi.domain.interactors.GetTodoColorInteractor
 import com.example.newmvi.mvi.BaseViewModel
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorEvent
@@ -16,7 +17,8 @@ class TodoCreatorViewModel @Inject constructor(
     reducer = TodoCreatorReducer()
 ) {
 
-    val getTodoColor: (Int) -> Unit = {
+    val getTodoColor: (color: Int) -> Unit = {
+        Log.i("TodoListFragment", "click viewModel: ")
         setEvent(TodoCreatorEvent.GetColor(it))
     }
 

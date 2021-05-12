@@ -1,29 +1,25 @@
 package com.example.newmvi.ui
 
 import android.graphics.Color
+import android.util.Log
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.example.newmvi.R
 import com.example.newmvi.ui.custom.todoRecycleView.TodoRecycleView
 
-@BindingAdapter("onItemClick")
-fun TodoRecycleView.onItemClick(block: (TextView?) -> Unit) {
-    this.setItemClick(block)
-}
-
 private var lottieAnimationView: LottieAnimationView? = null
 
-@BindingAdapter("click")
-fun LottieAnimationView.click(block: (Int?) -> Unit) {
-    setOnClickListener {
+fun LottieAnimationView.mark(block: (Int) -> Unit) {
 
+    setOnClickListener {
+        Log.i("TodoListFragment", "mark: ")
         lottieAnimationView?.let {
-            hideColorSelectionAnimation(it)
+            hideCheckBoxAnimation(it)
         }
 
         lottieAnimationView = this
-        showColorSelectionAnimation(this)
+        showCheckBoxAnimation(this)
 
         val color = when (id) {
             R.id.lottie_check_box_red -> Color.RED
@@ -34,19 +30,19 @@ fun LottieAnimationView.click(block: (Int?) -> Unit) {
             else -> Color.TRANSPARENT
         }
 
-        block(color)
+        block.invoke(color)
     }
 }
 
 
-private fun showColorSelectionAnimation(lottie: LottieAnimationView) {
+private fun showCheckBoxAnimation(lottie: LottieAnimationView) {
     lottie.apply {
         speed = 1f
         playAnimation()
     }
 }
 
-private fun hideColorSelectionAnimation(lottie: LottieAnimationView) {
+private fun hideCheckBoxAnimation(lottie: LottieAnimationView) {
     lottie.apply {
         speed = -1f
         playAnimation()

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.newmvi.databinding.FragmentTodoCreatorBinding
+import com.example.newmvi.ui.mark
 import com.example.newmvi.viewModels.TodoCreatorViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -27,20 +28,36 @@ class TodoCreatorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        val rootView = initBinding()
+        initComponentUI()
+
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
                 reducer(it)
             }
         }
 
-        return initBinding()
+        return rootView
     }
 
     private fun initBinding(): View {
         FragmentTodoCreatorBinding.inflate(layoutInflater).apply {
             binding = this
-            todoCreatorViewModel = viewModel
             return root
+        }
+    }
+
+    private fun initComponentUI() {
+        initLottieCheckBoxes()
+    }
+
+    private fun initLottieCheckBoxes() {
+        binding.apply {
+            lottieCheckBoxRed.mark { viewModel.getTodoColor }
+            lottieCheckBoxGreen.mark { viewModel.getTodoColor }
+            lottieCheckBoxBlue.mark { viewModel.getTodoColor }
+            lottieCheckBoxYellow.mark { viewModel.getTodoColor }
+            lottieCheckBoxPurple.mark { viewModel.getTodoColor }
         }
     }
 

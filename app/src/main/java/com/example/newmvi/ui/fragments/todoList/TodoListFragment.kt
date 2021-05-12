@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,19 +17,25 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class TodoListFragment : Fragment() {
+class TodoListFragment : Fragment(), View.OnClickListener {
 
     private val TAG = this::class.simpleName
 
     private lateinit var binding: FragmentTodoListBinding
-
     private val viewModel: TodoListViewModel by viewModels()
+
+    private lateinit var ibCreateItemTodo: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        val rootView = initBinding()
+
+        initComponentUi()
+        initListeners()
 
         viewModel.getTodoList()
 
@@ -38,15 +45,32 @@ class TodoListFragment : Fragment() {
             }
         }
 
-        return initBinding()
+        return rootView
     }
 
     private fun initBinding(): View {
         FragmentTodoListBinding.inflate(layoutInflater).apply {
             binding = this
-            todoList = this@TodoListFragment
-            todoListViewModel = viewModel
             return root
+        }
+    }
+
+    private fun initComponentUi() {
+        binding.also {
+            ibCreateItemTodo = it.ibCreateItemTodo
+            it.recycleTodoList.setItemClick { tv -> onTodoItemClick(tv) }
+        }
+    }
+
+    private fun initListeners() {
+        ibCreateItemTodo.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            ibCreateItemTodo.id -> {
+                viewModel.navigateToTodoCreatorFragment()
+            }
         }
     }
 
@@ -71,7 +95,7 @@ class TodoListFragment : Fragment() {
             ) -> {
                 Log.i(TAG, "render: Got todoList: ${state.todoList}")
                 hideLoadingAnimation()
-                binding.recycle.setItemList(state.todoList)
+                binding.recycleTodoList.setItemList(state.todoList)
             }
         }
     }
@@ -91,8 +115,8 @@ class TodoListFragment : Fragment() {
         }
     }
 
-    val onItemClick: (TextView?) -> Unit = {
-        Log.i(TAG, "onItemClick: ${it?.text}")
+    private fun onTodoItemClick(textView: TextView) {
+        textView.text = "Hello Vlad"
     }
 
 }
