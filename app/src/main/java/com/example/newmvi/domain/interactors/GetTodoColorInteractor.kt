@@ -1,6 +1,5 @@
 package com.example.newmvi.domain.interactors
 
-import android.util.Log
 import com.example.newmvi.domain.repositories.TodoRepo
 import com.example.newmvi.mvi.BaseInteractor
 import com.example.newmvi.randomTime
@@ -24,9 +23,7 @@ class GetTodoColorInteractor @Inject constructor(
     ): Flow<TodoCreatorEvent> {
         return event.filterIsInstance<TodoCreatorEvent.GetColor>()
             .map {
-                val time = randomTime()
-                Log.i("TodoListFragment", "delay: $time")
-                delay(time)
+                delay(randomTime())
                 TodoCreatorEvent.GotColor(repo.getTodoColor(it.color))
             }.flowOn(Dispatchers.Default)
     }

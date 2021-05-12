@@ -2,18 +2,14 @@ package com.example.newmvi.ui
 
 import android.graphics.Color
 import android.util.Log
-import android.widget.TextView
-import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.example.newmvi.R
-import com.example.newmvi.ui.custom.todoRecycleView.TodoRecycleView
 
 private var lottieAnimationView: LottieAnimationView? = null
 
 fun LottieAnimationView.mark(block: (Int) -> Unit) {
 
     setOnClickListener {
-        Log.i("TodoListFragment", "mark: ")
         lottieAnimationView?.let {
             hideCheckBoxAnimation(it)
         }
@@ -29,7 +25,7 @@ fun LottieAnimationView.mark(block: (Int) -> Unit) {
             R.id.lottie_check_box_purple -> Color.MAGENTA
             else -> Color.TRANSPARENT
         }
-
+        Log.i("TodoListFragment", "mark: $color")
         block.invoke(color)
     }
 }

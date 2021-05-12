@@ -29,11 +29,11 @@ class TodoCreatorFragment : Fragment() {
     ): View {
 
         val rootView = initBinding()
-        initComponentUI()
+        initComponentsUI()
 
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
-                reducer(it)
+                render(it)
             }
         }
 
@@ -47,42 +47,51 @@ class TodoCreatorFragment : Fragment() {
         }
     }
 
-    private fun initComponentUI() {
-        initLottieCheckBoxes()
-    }
-
-    private fun initLottieCheckBoxes() {
-        binding.apply {
-            lottieCheckBoxRed.mark { viewModel.getTodoColor }
-            lottieCheckBoxGreen.mark { viewModel.getTodoColor }
-            lottieCheckBoxBlue.mark { viewModel.getTodoColor }
-            lottieCheckBoxYellow.mark { viewModel.getTodoColor }
-            lottieCheckBoxPurple.mark { viewModel.getTodoColor }
+    private fun initComponentsUI() {
+        binding.also {
+            initLottieCheckBoxes(it)
         }
     }
 
-    private fun reducer(state: TodoCreatorState) {
+    private fun initLottieCheckBoxes(binding: FragmentTodoCreatorBinding) {
+        binding.apply {
+            lottieCheckBoxRed.mark(viewModel.getTodoColor)
+            lottieCheckBoxGreen.mark(viewModel.getTodoColor)
+            lottieCheckBoxBlue.mark(viewModel.getTodoColor)
+            lottieCheckBoxYellow.mark(viewModel.getTodoColor)
+            lottieCheckBoxPurple.mark(viewModel.getTodoColor)
+        }
+    }
+
+    private fun render(state: TodoCreatorState) {
         when (state) {
             TodoCreatorState(
                 isLoading = false,
                 color = 0
             ) -> {
-                Log.i("TodoListFragment", "reducer: Default")
+                Log.i("TodoListFragment", "render: Default")
             }
             TodoCreatorState(
                 isLoading = true,
                 color = 0
             ) -> {
-                Log.i("TodoListFragment", "reducer: Loading ...")
+                Log.i("TodoListFragment", "render: Loading ...")
+                binding.tvTodo.visibility = View.INVISIBLE
+                binding.ibConfirm.visibility = View.INVISIBLE
                 showLoadingColor()
             }
             TodoCreatorState(
                 isLoading = false,
                 color = state.color
             ) -> {
-                Log.i("TodoListFragment", "reducer: Got color: ${state.color}")
+                Log.i("TodoListFragment", "render: Got color: ${state.color}")
+
                 hideLoadingColor()
-                binding.root.setBackgroundColor(state.color)
+                binding.tvTodo.apply {
+                    visibility = View.VISIBLE
+                    setBackgroundColor(state.color)
+                }
+                binding.ibConfirm.visibility = View.VISIBLE
             }
         }
     }

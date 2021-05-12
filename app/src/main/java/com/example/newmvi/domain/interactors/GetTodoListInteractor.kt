@@ -1,17 +1,20 @@
 package com.example.newmvi.domain.interactors
 
-import android.util.Log
+import com.example.newmvi.SubDB
+import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.domain.repositories.TodoRepo
 import com.example.newmvi.mvi.BaseInteractor
 import com.example.newmvi.randomTime
 import com.example.newmvi.ui.fragments.todoList.TodoListEvent
 import com.example.newmvi.ui.fragments.todoList.TodoListState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GetTodoListInteractor @Inject constructor(
@@ -24,11 +27,18 @@ class GetTodoListInteractor @Inject constructor(
     ): Flow<TodoListEvent> {
         return event.filterIsInstance<TodoListEvent.GetTodoList>()
             .map {
-                val time = randomTime()
-                Log.i("TodoListFragment", "delay: $time")
-                delay(time)
-                TodoListEvent.GotTodoList(repo.getTodoList())
+                TodoListEvent.GotTodoList(getTodoList())
             }.flowOn(Dispatchers.Default)
+    }
+
+    private suspend fun getTodoList(): List<Todo> {
+        return if (SubDB.isFirstOpen) {
+            delay(randomTime())
+            SubDB.isFirstOpen = false
+            repo.getTodoList().also { SubDB.list.addAll(it) }
+        } else {
+            SubDB.list
+        }
     }
 
 }

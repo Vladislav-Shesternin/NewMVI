@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.newmvi.SubDB
 import com.example.newmvi.databinding.FragmentTodoListBinding
 import com.example.newmvi.viewModels.TodoListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,7 +35,7 @@ class TodoListFragment : Fragment(), View.OnClickListener {
 
         val rootView = initBinding()
 
-        initComponentUi()
+        initComponentsUI()
         initListeners()
 
         viewModel.getTodoList()
@@ -55,7 +56,7 @@ class TodoListFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun initComponentUi() {
+    private fun initComponentsUI() {
         binding.also {
             ibCreateItemTodo = it.ibCreateItemTodo
             it.recycleTodoList.setItemClick { tv -> onTodoItemClick(tv) }
