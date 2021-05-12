@@ -7,6 +7,10 @@
         tools:height="100dp"
         tools:width="100dp" />
 
-    <solid android:color="@color/teal_200" />
+    <solid android:color="@color/green" />
+
+    <stroke
+        android:width="5dp"
+        android:color="@color/white" />
 
 </shape>

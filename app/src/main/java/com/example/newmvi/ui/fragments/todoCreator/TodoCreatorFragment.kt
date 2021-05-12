@@ -6,21 +6,27 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.newmvi.SubDB
 import com.example.newmvi.databinding.FragmentTodoCreatorBinding
+import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.ui.mark
 import com.example.newmvi.viewModels.TodoCreatorViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class TodoCreatorFragment : Fragment() {
+class TodoCreatorFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentTodoCreatorBinding
-
     private val viewModel: TodoCreatorViewModel by viewModels()
+
+    private lateinit var ibConfirm: ImageButton
+
+    private var todo = Todo("", 0)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +36,7 @@ class TodoCreatorFragment : Fragment() {
 
         val rootView = initBinding()
         initComponentsUI()
+        initListeners()
 
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
@@ -49,8 +56,13 @@ class TodoCreatorFragment : Fragment() {
 
     private fun initComponentsUI() {
         binding.also {
+            ibConfirm = it.ibConfirm
             initLottieCheckBoxes(it)
         }
+    }
+
+    private fun initListeners() {
+        ibConfirm.setOnClickListener(this)
     }
 
     private fun initLottieCheckBoxes(binding: FragmentTodoCreatorBinding) {
@@ -86,6 +98,8 @@ class TodoCreatorFragment : Fragment() {
             ) -> {
                 Log.i("TodoListFragment", "render: Got color: ${state.color}")
 
+                todo.todoColor = state.color
+
                 hideLoadingColor()
                 binding.tvTodo.apply {
                     visibility = View.VISIBLE
@@ -108,6 +122,16 @@ class TodoCreatorFragment : Fragment() {
         binding.lottieProgress.apply {
             visibility = View.INVISIBLE
             cancelAnimation()
+        }
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            ibConfirm.id -> {
+                todo.todoText = "TODO ${SubDB.list.size.inc()}"
+                SubDB.list.add(todo)
+                viewModel.navigateBack()
+            }
         }
     }
 

@@ -1,5 +1,10 @@
 package com.example.newmvi.domain.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Todo(
-    val todoText: String
-)
+    var todoText: String,
+    var todoColor: Int
+) : Parcelable

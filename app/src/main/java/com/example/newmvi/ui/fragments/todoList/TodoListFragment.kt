@@ -1,6 +1,7 @@
 package com.example.newmvi.ui.fragments.todoList
 
 import android.animation.ValueAnimator
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.newmvi.SubDB
 import com.example.newmvi.databinding.FragmentTodoListBinding
+import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.viewModels.TodoListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -117,7 +119,11 @@ class TodoListFragment : Fragment(), View.OnClickListener {
     }
 
     private fun onTodoItemClick(textView: TextView) {
-        textView.text = "Hello Vlad"
+
+        val text = textView.text.toString()
+        val color = (textView.background as ColorDrawable).color
+
+        viewModel.navigateToTodoEditorFragment(Todo(text, color))
     }
 
 }

@@ -7,6 +7,6 @@
         tools:height="100dp"
         tools:width="100dp" />
 
-    <solid android:color="@color/purple_200" />
+    <solid android:color="@color/teal_200" />
 
 </shape>

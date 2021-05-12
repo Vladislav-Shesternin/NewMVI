@@ -3,22 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/todoList">
+    app:startDestination="@id/todoListFragment">
 
     <fragment
-        android:id="@+id/todoList"
+        android:id="@+id/todoListFragment"
         android:name="com.example.newmvi.ui.fragments.todoList.TodoListFragment"
-        android:label="TodoList"
+        android:label="TodoListFragment"
         tools:layout="@layout/fragment_todo_list">
         <action
             android:id="@+id/action_todoList_to_todoCreatorFragment"
             app:destination="@id/todoCreatorFragment" />
+        <action
+            android:id="@+id/action_todoList_to_todoEditorFragment"
+            app:destination="@id/todoEditorFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/todoCreatorFragment"
         android:name="com.example.newmvi.ui.fragments.todoCreator.TodoCreatorFragment"
         android:label="TodoCreatorFragment"
+        tools:layout="@layout/fragment_todo_creator" />
+
+    <fragment
+        android:id="@+id/todoEditorFragment"
+        android:name="com.example.newmvi.ui.fragments.todoEditor.TodoEditorFragment"
+        android:label="TodoEditorFragment"
         tools:layout="@layout/fragment_todo_creator" />
 
 </navigation>

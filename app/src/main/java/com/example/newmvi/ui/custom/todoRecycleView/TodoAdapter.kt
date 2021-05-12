@@ -49,7 +49,6 @@ class TodoAdapter : ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffCallback()
         private val binding: ItemTodoBinding
     ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
-        private val flContainerTodo: FrameLayout = binding.flContainerTodo
         private val tvTodo: TextView = binding.tvTodo
 
         init {
@@ -59,16 +58,17 @@ class TodoAdapter : ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffCallback()
         fun bind(item: Todo) {
             tvTodo.also {
                 it.text = item.todoText
+                it.setBackgroundColor(item.todoColor)
             }
         }
 
         private fun initListeners() {
-            flContainerTodo.setOnClickListener(this)
+            tvTodo.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {
             when (v.id) {
-                flContainerTodo.id -> onItemClick.invoke(tvTodo)
+                tvTodo.id -> onItemClick.invoke(tvTodo)
             }
         }
     }
