@@ -15,10 +15,6 @@ class BaseRouterImpl @Inject constructor() : BaseRouter {
        navController = activity.findNavController(R.id.nav_host_fragment)
     }
 
-    override fun detach() {
-        navController = null
-    }
-
     override fun execute(command: BaseCommand) {
         when (command) {
             is BaseCommand.Navigate -> {
