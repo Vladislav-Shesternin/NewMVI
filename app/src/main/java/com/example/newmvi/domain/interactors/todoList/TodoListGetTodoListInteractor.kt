@@ -1,4 +1,4 @@
-package com.example.newmvi.domain.interactors
+package com.example.newmvi.domain.interactors.todoList
 
 import com.example.newmvi.SubDB
 import com.example.newmvi.domain.models.Todo
@@ -7,17 +7,15 @@ import com.example.newmvi.mvi.BaseInteractor
 import com.example.newmvi.randomTime
 import com.example.newmvi.ui.fragments.todoList.TodoListEvent
 import com.example.newmvi.ui.fragments.todoList.TodoListState
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class GetTodoListInteractor @Inject constructor(
+class TodoListGetTodoListInteractor @Inject constructor(
     private val repo: TodoRepo
 ) : BaseInteractor<TodoListEvent, TodoListState> {
 

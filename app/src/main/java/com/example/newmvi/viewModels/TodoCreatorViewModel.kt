@@ -1,6 +1,6 @@
 package com.example.newmvi.viewModels
 
-import com.example.newmvi.domain.interactors.GetTodoColorInteractor
+import com.example.newmvi.domain.interactors.todoCreator.TodoCreatorGetTodoColorInteractor
 import com.example.newmvi.mvi.BaseViewModel
 import com.example.newmvi.navigation.BaseCommand
 import com.example.newmvi.navigation.BaseRouter
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodoCreatorViewModel @Inject constructor(
-    getTodoColor: GetTodoColorInteractor,
+    getTodoColor: TodoCreatorGetTodoColorInteractor,
     private val router: BaseRouter
 ) : BaseViewModel<TodoCreatorEvent, TodoCreatorState>(
     interactors = setOf(getTodoColor),

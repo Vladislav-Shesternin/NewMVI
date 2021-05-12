@@ -1,6 +1,6 @@
 package com.example.newmvi.viewModels
 
-import com.example.newmvi.domain.interactors.GetTodoListInteractor
+import com.example.newmvi.domain.interactors.todoList.TodoListGetTodoListInteractor
 import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.mvi.BaseViewModel
 import com.example.newmvi.navigation.BaseCommand
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodoListViewModel @Inject constructor(
-    getTodoList: GetTodoListInteractor,
+    getTodoList: TodoListGetTodoListInteractor,
     private val router: BaseRouter,
 ) : BaseViewModel<TodoListEvent, TodoListState>(
     interactors = setOf(getTodoList),
