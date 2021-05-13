@@ -20,14 +20,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class TodoListFragment : Fragment(), View.OnClickListener {
+class TodoListFragment : Fragment() {
 
     private val TAG = this::class.simpleName
 
     private lateinit var binding: FragmentTodoListBinding
     private val viewModel: TodoListViewModel by viewModels()
-
-    private lateinit var ibCreateItemTodo: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,10 +33,13 @@ class TodoListFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View {
 
-        val rootView = initBinding()
+        return initBinding()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initComponentsUI()
-        initListeners()
 
         viewModel.getTodoList()
 
@@ -48,7 +49,6 @@ class TodoListFragment : Fragment(), View.OnClickListener {
             }
         }
 
-        return rootView
     }
 
     private fun initBinding(): View {
@@ -59,26 +59,19 @@ class TodoListFragment : Fragment(), View.OnClickListener {
     }
 
     private fun initComponentsUI() {
-        binding.also {
-            ibCreateItemTodo = it.ibCreateItemTodo
-            it.recycleTodoList.setItemClick { textView, position ->
+        binding.apply {
+
+            ibCreateItemTodo.setOnClickListener {
+                viewModel.navigateToTodoCreatorFragment()
+            }
+
+            recycleTodoList.setItemClick { textView, position ->
                 onTodoItemClick(
                     textView,
                     position
                 )
             }
-        }
-    }
 
-    private fun initListeners() {
-        ibCreateItemTodo.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View) {
-        when (v.id) {
-            ibCreateItemTodo.id -> {
-                viewModel.navigateToTodoCreatorFragment()
-            }
         }
     }
 

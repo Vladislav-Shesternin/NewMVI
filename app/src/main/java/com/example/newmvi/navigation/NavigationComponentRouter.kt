@@ -6,7 +6,7 @@ import androidx.navigation.findNavController
 import com.example.newmvi.R
 import javax.inject.Inject
 
-class BaseRouterImpl @Inject constructor() : BaseRouter {
+class NavigationComponentRouter @Inject constructor() : BaseRouter {
 
     private var navController: NavController? = null
 
@@ -14,13 +14,13 @@ class BaseRouterImpl @Inject constructor() : BaseRouter {
         navController = activity.findNavController(R.id.nav_host_fragment)
     }
 
-    override fun execute(command: BaseCommand) {
+    override fun execute(command: NavigationCommand) {
         navController?.let { controller ->
             when (command) {
-                is BaseCommand.Back -> {
+                is NavigationCommand.Back -> {
                     controller.popBackStack()
                 }
-                is BaseCommand.Navigate -> {
+                is NavigationCommand.Navigate -> {
                     command.screen.navigateTo(controller)
                 }
             }

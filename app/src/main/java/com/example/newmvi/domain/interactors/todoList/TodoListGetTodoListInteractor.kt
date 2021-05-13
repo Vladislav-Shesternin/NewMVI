@@ -33,7 +33,11 @@ class TodoListGetTodoListInteractor @Inject constructor(
         return if (SubDB.isFirstOpen) {
             delay(randomTime())
             SubDB.isFirstOpen = false
-            repo.getTodoList().also { SubDB.list.addAll(it) }
+
+            val todoList = repo.getTodoList()
+            SubDB.list.addAll(todoList)
+
+            todoList
         } else {
             SubDB.list
         }

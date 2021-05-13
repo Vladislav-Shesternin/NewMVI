@@ -1,7 +1,11 @@
-package com.example.newmvi.mvi
+package com.example.newmvi.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.newmvi.mvi.BaseEvent
+import com.example.newmvi.mvi.BaseInteractor
+import com.example.newmvi.mvi.BaseReducer
+import com.example.newmvi.mvi.BaseState
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -17,7 +21,6 @@ abstract class BaseViewModel<Event : BaseEvent, State : BaseState>(
     val state = _state.asStateFlow()
 
     private val _event: MutableSharedFlow<Event> = MutableSharedFlow()
-    val event = _event.asSharedFlow()
 
     init {
         subscribeEvents()

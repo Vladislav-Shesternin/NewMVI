@@ -6,6 +6,6 @@ interface BaseRouter {
 
     fun attach(activity: FragmentActivity)
 
-    fun execute(command: BaseCommand)
+    fun execute(command: NavigationCommand)
 
 }

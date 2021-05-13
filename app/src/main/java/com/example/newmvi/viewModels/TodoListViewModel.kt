@@ -2,8 +2,8 @@ package com.example.newmvi.viewModels
 
 import com.example.newmvi.domain.interactors.todoList.TodoListGetTodoListInteractor
 import com.example.newmvi.domain.models.Todo
-import com.example.newmvi.mvi.BaseViewModel
-import com.example.newmvi.navigation.BaseCommand
+import com.example.newmvi.base.BaseViewModel
+import com.example.newmvi.navigation.NavigationCommand
 import com.example.newmvi.navigation.BaseRouter
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorScreen
 import com.example.newmvi.ui.fragments.todoEditor.TodoEditorScreen
@@ -27,11 +27,11 @@ class TodoListViewModel @Inject constructor(
     }
 
     fun navigateToTodoCreatorFragment() {
-        router.execute(BaseCommand.Navigate(TodoCreatorScreen()))
+        router.execute(NavigationCommand.Navigate(TodoCreatorScreen()))
     }
 
     fun navigateToTodoEditorFragment(todo: Todo, position: Int) {
-        router.execute(BaseCommand.Navigate(TodoEditorScreen(todo, position)))
+        router.execute(NavigationCommand.Navigate(TodoEditorScreen(todo, position)))
     }
 
 }

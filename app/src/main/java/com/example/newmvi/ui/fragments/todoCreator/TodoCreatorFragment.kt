@@ -20,14 +20,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class TodoCreatorFragment : Fragment(), View.OnClickListener {
+class TodoCreatorFragment : Fragment() {
 
     private lateinit var binding: FragmentTodoCreatorBinding
     private val viewModel: TodoCreatorViewModel by viewModels()
 
-    private lateinit var ibConfirm: ImageButton
-
-    private var todo = Todo("", 0)
+    private val todo = Todo("", 0)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,17 +33,19 @@ class TodoCreatorFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View {
 
-        val rootView = initBinding()
+        return initBinding()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         initComponentsUI()
-        initListeners()
 
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
                 render(it)
             }
         }
-
-        return rootView
     }
 
     private fun initBinding(): View {
@@ -56,18 +56,21 @@ class TodoCreatorFragment : Fragment(), View.OnClickListener {
     }
 
     private fun initComponentsUI() {
-        binding.also {
-            ibConfirm = it.ibConfirm
-            initLottieCheckBoxes(it)
+        binding.apply {
+
+            ibConfirm.setOnClickListener {
+                todo.todoText = "TODO ${viewModel.getAllTodoFromDb().size.inc()}"
+
+                viewModel.addTodoToDB(todo)
+                viewModel.navigateBack()
+            }
+
+            initLottieCheckBoxes(this)
         }
     }
 
-    private fun initListeners() {
-        ibConfirm.setOnClickListener(this)
-    }
-
     private fun initLottieCheckBoxes(binding: FragmentTodoCreatorBinding) {
-        binding.apply {
+        with(binding) {
             lottieCheckBoxRed.mark(viewModel.getTodoColor)
             lottieCheckBoxGreen.mark(viewModel.getTodoColor)
             lottieCheckBoxBlue.mark(viewModel.getTodoColor)
@@ -119,15 +122,4 @@ class TodoCreatorFragment : Fragment(), View.OnClickListener {
             }
         }
     }
-
-    override fun onClick(v: View) {
-        when (v.id) {
-            ibConfirm.id -> {
-                todo.todoText = "TODO ${SubDB.list.size.inc()}"
-                SubDB.list.add(todo)
-                viewModel.navigateBack()
-            }
-        }
-    }
-
 }

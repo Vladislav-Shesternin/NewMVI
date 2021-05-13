@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.newmvi.SubDB
+import com.example.newmvi.databinding.FragmentTodoCreatorBinding
 import com.example.newmvi.databinding.FragmentTodoEditorBinding
 import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.ui.hideLoadingAnimation
@@ -21,14 +22,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class TodoEditorFragment : Fragment(), View.OnClickListener {
+class TodoEditorFragment : Fragment() {
 
     private val TAG = this::class.simpleName
 
     private lateinit var binding: FragmentTodoEditorBinding
     private val viewModel: TodoEditorViewModel by viewModels()
-
-    private lateinit var ibConfirm: ImageButton
 
     private val todo = Todo("", 0)
 
@@ -38,9 +37,13 @@ class TodoEditorFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View {
 
-        val rootView = initBinding()
+        return initBinding()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         initComponentsUI()
-        initListeners()
 
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
@@ -48,7 +51,6 @@ class TodoEditorFragment : Fragment(), View.OnClickListener {
             }
         }
 
-        return rootView
     }
 
     private fun initBinding(): View {
@@ -59,15 +61,27 @@ class TodoEditorFragment : Fragment(), View.OnClickListener {
     }
 
     private fun initComponentsUI() {
-        binding.also {
-            ibConfirm = it.includeTodoCreator.ibConfirm
-            initTodo(
-                textView = it.includeTodoCreator.tvTodo,
-                todo = arguments?.getParcelable<Todo>("todo") ?: Todo("TODO", 0)
-            )
-            initLottieCheckBoxes(it)
-        }
+        binding.apply {
 
+            this.includeTodoCreator.also { include ->
+
+                initTodo(
+                    textView = include.tvTodo,
+                    todo = arguments?.getParcelable<Todo>("todo") ?: Todo("TODO", 0)
+                )
+
+                initLottieCheckBoxes(include)
+
+                include.ibConfirm.setOnClickListener {
+                    val position =
+                        arguments?.getInt("position") ?: viewModel.getAllTodoFromDb().size - 1
+                    viewModel.addTodoToDBInPosition(todo, position)
+                    viewModel.navigateBack()
+                }
+
+            }
+
+        }
     }
 
     private fun initTodo(textView: TextView, todo: Todo) {
@@ -80,27 +94,13 @@ class TodoEditorFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun initLottieCheckBoxes(binding: FragmentTodoEditorBinding) {
-        binding.includeTodoCreator.apply {
+    private fun initLottieCheckBoxes(binding: FragmentTodoCreatorBinding) {
+        binding.apply {
             lottieCheckBoxRed.mark(viewModel.getTodoColor)
             lottieCheckBoxGreen.mark(viewModel.getTodoColor)
             lottieCheckBoxBlue.mark(viewModel.getTodoColor)
             lottieCheckBoxYellow.mark(viewModel.getTodoColor)
             lottieCheckBoxPurple.mark(viewModel.getTodoColor)
-        }
-    }
-
-    private fun initListeners() {
-        ibConfirm.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View) {
-        when (v.id) {
-            ibConfirm.id -> {
-                val position = arguments?.getInt("position") ?: SubDB.list.size - 1
-                SubDB.list[position] = todo
-                viewModel.navigateBack()
-            }
         }
     }
 
