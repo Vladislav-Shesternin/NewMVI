@@ -27,7 +27,7 @@ class TodoRecycleView(
         adapterTodo.submitList(todoList)
     }
 
-    fun setItemClick(block: (TextView) -> Unit) {
+    fun setItemClick(block: (textView: TextView, position: Int) -> Unit) {
         adapterTodo.onItemClick = block
     }
 

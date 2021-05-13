@@ -1,6 +1,5 @@
 package com.example.newmvi.ui.fragments.todoCreator
 
-import android.animation.ValueAnimator
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import com.example.newmvi.SubDB
 import com.example.newmvi.databinding.FragmentTodoCreatorBinding
 import com.example.newmvi.domain.models.Todo
+import com.example.newmvi.ui.hideLoadingAnimation
 import com.example.newmvi.ui.mark
+import com.example.newmvi.ui.showLoadingAnimation
 import com.example.newmvi.viewModels.TodoCreatorViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -88,9 +89,14 @@ class TodoCreatorFragment : Fragment(), View.OnClickListener {
                 color = 0
             ) -> {
                 Log.i("TodoListFragment", "render: Loading ...")
-                binding.tvTodo.visibility = View.INVISIBLE
-                binding.ibConfirm.visibility = View.INVISIBLE
-                showLoadingColor()
+
+                binding.apply {
+                    tvTodo.visibility = View.INVISIBLE
+
+                    ibConfirm.visibility = View.INVISIBLE
+
+                    lottieProgress.showLoadingAnimation()
+                }
             }
             TodoCreatorState(
                 isLoading = false,
@@ -100,28 +106,17 @@ class TodoCreatorFragment : Fragment(), View.OnClickListener {
 
                 todo.todoColor = state.color
 
-                hideLoadingColor()
-                binding.tvTodo.apply {
-                    visibility = View.VISIBLE
-                    setBackgroundColor(state.color)
+                binding.apply {
+                    lottieProgress.hideLoadingAnimation()
+
+                    tvTodo.apply {
+                        visibility = View.VISIBLE
+                        setBackgroundColor(state.color)
+                    }
+
+                    ibConfirm.visibility = View.VISIBLE
                 }
-                binding.ibConfirm.visibility = View.VISIBLE
             }
-        }
-    }
-
-    private fun showLoadingColor() {
-        binding.lottieProgress.apply {
-            visibility = View.VISIBLE
-            repeatCount = ValueAnimator.INFINITE
-            playAnimation()
-        }
-    }
-
-    private fun hideLoadingColor() {
-        binding.lottieProgress.apply {
-            visibility = View.INVISIBLE
-            cancelAnimation()
         }
     }
 

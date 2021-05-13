@@ -1,6 +1,5 @@
 package com.example.newmvi.ui.fragments.todoList
 
-import android.animation.ValueAnimator
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
@@ -12,9 +11,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.newmvi.SubDB
 import com.example.newmvi.databinding.FragmentTodoListBinding
 import com.example.newmvi.domain.models.Todo
+import com.example.newmvi.ui.hideLoadingAnimation
+import com.example.newmvi.ui.showLoadingAnimation
 import com.example.newmvi.viewModels.TodoListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -61,7 +61,12 @@ class TodoListFragment : Fragment(), View.OnClickListener {
     private fun initComponentsUI() {
         binding.also {
             ibCreateItemTodo = it.ibCreateItemTodo
-            it.recycleTodoList.setItemClick { tv -> onTodoItemClick(tv) }
+            it.recycleTodoList.setItemClick { textView, position ->
+                onTodoItemClick(
+                    textView,
+                    position
+                )
+            }
         }
     }
 
@@ -90,40 +95,28 @@ class TodoListFragment : Fragment(), View.OnClickListener {
                 todoList = emptyList()
             ) -> {
                 Log.i(TAG, "render: Loading ...")
-                showLoadingAnimation()
+                binding.lottieProgress.showLoadingAnimation()
             }
             TodoListState(
                 isLoading = false,
                 todoList = state.todoList
             ) -> {
                 Log.i(TAG, "render: Got todoList: ${state.todoList}")
-                hideLoadingAnimation()
+                binding.lottieProgress.hideLoadingAnimation()
                 binding.recycleTodoList.setItemList(state.todoList)
             }
         }
     }
 
-    private fun showLoadingAnimation() {
-        binding.lottieProgress.apply {
-            visibility = View.VISIBLE
-            repeatCount = ValueAnimator.INFINITE
-            playAnimation()
-        }
-    }
-
-    private fun hideLoadingAnimation() {
-        binding.lottieProgress.apply {
-            visibility = View.GONE
-            cancelAnimation()
-        }
-    }
-
-    private fun onTodoItemClick(textView: TextView) {
+    private fun onTodoItemClick(textView: TextView, position: Int) {
 
         val text = textView.text.toString()
         val color = (textView.background as ColorDrawable).color
 
-        viewModel.navigateToTodoEditorFragment(Todo(text, color))
+        viewModel.navigateToTodoEditorFragment(
+            todo = Todo(text, color),
+            position = position
+        )
     }
 
 }

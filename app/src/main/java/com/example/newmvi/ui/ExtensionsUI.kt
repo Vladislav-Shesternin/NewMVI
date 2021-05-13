@@ -1,9 +1,15 @@
 package com.example.newmvi.ui
 
+import android.animation.ValueAnimator
 import android.graphics.Color
 import android.util.Log
+import android.view.View
 import com.airbnb.lottie.LottieAnimationView
 import com.example.newmvi.R
+
+// ------------------------------------------------------------
+//                  Lottie CheckBox
+// ------------------------------------------------------------
 
 private var lottieAnimationView: LottieAnimationView? = null
 
@@ -25,7 +31,6 @@ fun LottieAnimationView.mark(block: (Int) -> Unit) {
             R.id.lottie_check_box_purple -> Color.MAGENTA
             else -> Color.TRANSPARENT
         }
-        Log.i("TodoListFragment", "mark: $color")
         block.invoke(color)
     }
 }
@@ -43,4 +48,19 @@ private fun hideCheckBoxAnimation(lottie: LottieAnimationView) {
         speed = -1f
         playAnimation()
     }
+}
+
+// ------------------------------------------------------------
+//                  Lottie ProgressBar
+// ------------------------------------------------------------
+
+fun LottieAnimationView.showLoadingAnimation() {
+    visibility = View.VISIBLE
+    repeatCount = ValueAnimator.INFINITE
+    playAnimation()
+}
+
+fun LottieAnimationView.hideLoadingAnimation() {
+    visibility = View.INVISIBLE
+    cancelAnimation()
 }

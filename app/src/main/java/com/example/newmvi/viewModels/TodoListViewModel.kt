@@ -30,8 +30,8 @@ class TodoListViewModel @Inject constructor(
         router.execute(BaseCommand.Navigate(TodoCreatorScreen()))
     }
 
-    fun navigateToTodoEditorFragment(todo: Todo) {
-        router.execute(BaseCommand.Navigate(TodoEditorScreen(todo)))
+    fun navigateToTodoEditorFragment(todo: Todo, position: Int) {
+        router.execute(BaseCommand.Navigate(TodoEditorScreen(todo, position)))
     }
 
 }

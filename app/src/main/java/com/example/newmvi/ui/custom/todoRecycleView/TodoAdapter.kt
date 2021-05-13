@@ -3,7 +3,6 @@ package com.example.newmvi.ui.custom.todoRecycleView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -40,7 +39,7 @@ class TodoAdapter : ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffCallback()
         holder.bind(getItem(position))
     }
 
-    var onItemClick: (TextView) -> Unit = { }
+    var onItemClick: (TextView, position: Int) -> Unit = { _, _ -> }
 
     // ------------------------------------------------------------
     //                  ViewHolder
@@ -68,7 +67,7 @@ class TodoAdapter : ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffCallback()
 
         override fun onClick(v: View) {
             when (v.id) {
-                tvTodo.id -> onItemClick.invoke(tvTodo)
+                tvTodo.id -> onItemClick.invoke(tvTodo, adapterPosition)
             }
         }
     }
