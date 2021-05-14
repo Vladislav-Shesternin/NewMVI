@@ -6,5 +6,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Todo(
     var todoText: String,
-    var todoColor: Int
+    var todoColor: Int,
 ) : Parcelable

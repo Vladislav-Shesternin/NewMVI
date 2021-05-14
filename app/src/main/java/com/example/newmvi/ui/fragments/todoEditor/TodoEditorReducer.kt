@@ -7,7 +7,8 @@ class TodoEditorReducer : BaseReducer<TodoEditorEvent, TodoEditorState> {
     override val initialState: TodoEditorState
         get() = TodoEditorState(
             isLoading = false,
-            color = 0
+            color = 0,
+            todoList = emptyList()
         )
 
     override fun reduce(event: TodoEditorEvent, state: TodoEditorState): TodoEditorState {
@@ -24,6 +25,14 @@ class TodoEditorReducer : BaseReducer<TodoEditorEvent, TodoEditorState> {
                     color = event.color
                 )
             }
+            is TodoEditorEvent.GotAllTodo -> {
+                state.copy(
+                    isLoading = false,
+                    color = 0,
+                    todoList = event.todoList
+                )
+            }
+            else -> state
         }
     }
 }

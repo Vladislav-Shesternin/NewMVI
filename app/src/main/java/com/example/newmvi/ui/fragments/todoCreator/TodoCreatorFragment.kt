@@ -22,6 +22,8 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class TodoCreatorFragment : Fragment() {
 
+    private val TAG = this::class.simpleName
+
     private lateinit var binding: FragmentTodoCreatorBinding
     private val viewModel: TodoCreatorViewModel by viewModels()
 
@@ -59,10 +61,7 @@ class TodoCreatorFragment : Fragment() {
         binding.apply {
 
             ibConfirm.setOnClickListener {
-                todo.todoText = "TODO ${viewModel.getAllTodoFromDb().size.inc()}"
-
-                viewModel.addTodoToDB(todo)
-                viewModel.navigateBack()
+                viewModel.getAllTodoFromDb()
             }
 
             initLottieCheckBoxes(this)
@@ -83,13 +82,15 @@ class TodoCreatorFragment : Fragment() {
         when (state) {
             TodoCreatorState(
                 isLoading = false,
-                color = 0
+                color = 0,
+                todoList = emptyList()
             ) -> {
                 Log.i("TodoListFragment", "render: Default")
             }
             TodoCreatorState(
                 isLoading = true,
-                color = 0
+                color = 0,
+                todoList = emptyList()
             ) -> {
                 Log.i("TodoListFragment", "render: Loading ...")
 
@@ -103,7 +104,8 @@ class TodoCreatorFragment : Fragment() {
             }
             TodoCreatorState(
                 isLoading = false,
-                color = state.color
+                color = state.color,
+                todoList = emptyList()
             ) -> {
                 Log.i("TodoListFragment", "render: Got color: ${state.color}")
 
@@ -119,6 +121,18 @@ class TodoCreatorFragment : Fragment() {
 
                     ibConfirm.visibility = View.VISIBLE
                 }
+            }
+            TodoCreatorState(
+                isLoading = false,
+                color = 0,
+                todoList = state.todoList
+            ) -> {
+                Log.i(TAG, "render: todoList ${state.todoList}")
+
+                todo.todoText = "TODO ${state.todoList.size.inc()}"
+
+                viewModel.addTodoToDB(todo)
+                viewModel.navigateBack()
             }
         }
     }

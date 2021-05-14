@@ -73,10 +73,7 @@ class TodoEditorFragment : Fragment() {
                 initLottieCheckBoxes(include)
 
                 include.ibConfirm.setOnClickListener {
-                    val position =
-                        arguments?.getInt("position") ?: viewModel.getAllTodoFromDb().size - 1
-                    viewModel.addTodoToDBInPosition(todo, position)
-                    viewModel.navigateBack()
+                    viewModel.getAllTodoFromDb()
                 }
 
             }
@@ -108,13 +105,15 @@ class TodoEditorFragment : Fragment() {
         when (state) {
             TodoEditorState(
                 isLoading = false,
-                color = 0
+                color = 0,
+                todoList = emptyList()
             ) -> {
                 Log.i(TAG, "render: Default")
             }
             TodoEditorState(
                 isLoading = true,
-                color = 0
+                color = 0,
+                todoList = emptyList()
             ) -> {
                 Log.i(TAG, "render: Loading ...")
 
@@ -128,7 +127,8 @@ class TodoEditorFragment : Fragment() {
             }
             TodoEditorState(
                 isLoading = false,
-                color = state.color
+                color = state.color,
+                todoList = emptyList()
             ) -> {
                 Log.i(TAG, "render: Got color: ${state.color}")
 
@@ -144,6 +144,18 @@ class TodoEditorFragment : Fragment() {
 
                     ibConfirm.visibility = View.VISIBLE
                 }
+            }
+            TodoEditorState(
+                isLoading = false,
+                color = 0,
+                todoList = state.todoList
+            ) -> {
+                Log.i(TAG, "render: todoList ${state.todoList}")
+
+                val position = arguments?.getInt("position") ?: state.todoList.size - 1
+
+                viewModel.addTodoToDBInPosition(todo, position)
+                viewModel.navigateBack()
             }
         }
     }

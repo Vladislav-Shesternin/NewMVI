@@ -1,8 +1,8 @@
 package com.example.newmvi.viewModels
 
-import com.example.newmvi.domain.interactors.todoEditor.TodoEditorGetAllTodoFromDB
+import com.example.newmvi.domain.interactors.todoEditor.TodoEditorGetAllTodoFromDBInteractor
 import com.example.newmvi.domain.interactors.todoEditor.TodoEditorGetTodoColorInteractor
-import com.example.newmvi.domain.interactors.todoEditor.TodoEditorInsertTodoToDBInPosition
+import com.example.newmvi.domain.interactors.todoEditor.TodoEditorInsertTodoToDBInPositionInteractor
 import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.base.BaseViewModel
 import com.example.newmvi.navigation.NavigationCommand
@@ -16,11 +16,11 @@ import javax.inject.Inject
 @HiltViewModel
 class TodoEditorViewModel @Inject constructor(
     getTodoColor: TodoEditorGetTodoColorInteractor,
-    private val insertTodoToDBInPosition: TodoEditorInsertTodoToDBInPosition,
-    private val getAllTodoFromDB: TodoEditorGetAllTodoFromDB,
+    insertTodoToDBInPosition: TodoEditorInsertTodoToDBInPositionInteractor,
+    getAllTodoFromDB: TodoEditorGetAllTodoFromDBInteractor,
     private val router: BaseRouter
 ) : BaseViewModel<TodoEditorEvent, TodoEditorState>(
-    interactors = setOf(getTodoColor),
+    interactors = setOf(getTodoColor, insertTodoToDBInPosition, getAllTodoFromDB),
     reducer = TodoEditorReducer()
 ) {
 
@@ -29,11 +29,11 @@ class TodoEditorViewModel @Inject constructor(
     }
 
     fun addTodoToDBInPosition(todo: Todo, position: Int) {
-        insertTodoToDBInPosition(todo, position)
+        setEvent(TodoEditorEvent.InsertTodoInPosition(todo, position))
     }
 
-    fun getAllTodoFromDb(): List<Todo> {
-        return getAllTodoFromDB()
+    fun getAllTodoFromDb() {
+        setEvent(TodoEditorEvent.GetAllTodo)
     }
 
     fun navigateBack() {
