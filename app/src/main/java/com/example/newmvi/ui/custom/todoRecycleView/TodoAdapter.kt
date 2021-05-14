@@ -46,28 +46,18 @@ class TodoAdapter : ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffCallback()
     // ------------------------------------------------------------
     inner class ViewHolder(
         private val binding: ItemTodoBinding
-    ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
-
-        private val tvTodo: TextView = binding.tvTodo
-
-        init {
-            initListeners()
-        }
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Todo) {
-            tvTodo.also {
-                it.text = item.todoText
-                it.setBackgroundColor(item.todoColor)
-            }
-        }
+            binding.tvTodo.apply {
 
-        private fun initListeners() {
-            tvTodo.setOnClickListener(this)
-        }
+                text = item.todoText
+                setBackgroundColor(item.todoColor)
 
-        override fun onClick(v: View) {
-            when (v.id) {
-                tvTodo.id -> onItemClick.invoke(tvTodo, adapterPosition)
+                setOnClickListener {
+                    onItemClick.invoke(this, adapterPosition)
+                }
+
             }
         }
     }

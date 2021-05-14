@@ -31,8 +31,4 @@ class TodoRecycleView(
         adapterTodo.onItemClick = block
     }
 
-    fun addTodo(todo: Todo) {
-        adapterTodo.submitList(listOf(todo))
-    }
-
 }
