@@ -21,15 +21,11 @@ class TodoEditorViewModel @Inject constructor(
 ) {
 
     val getTodoColor: (color: Int) -> Unit = {
-        setEvent(TodoEditorEvent.GetColor(it))
+        setEvent(TodoEditorEvent.LoadColor(it))
     }
 
-    fun addTodoToDBInPosition(todo: Todo, position: Int) {
-        setEvent(TodoEditorEvent.InsertTodoInPosition(todo, position))
-    }
-
-    fun getAllTodoFromDb() {
-        setEvent(TodoEditorEvent.GetAllTodo)
+    fun updateTodoInDb(todo: Todo) {
+        setEvent(TodoEditorEvent.UpdateTodoInDb(todo))
     }
 
     fun navigateBack() {

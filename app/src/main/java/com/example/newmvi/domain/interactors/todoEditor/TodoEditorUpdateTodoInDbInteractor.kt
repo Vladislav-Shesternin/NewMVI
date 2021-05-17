@@ -1,5 +1,7 @@
 package com.example.newmvi.domain.interactors.todoEditor
 
+import com.example.newmvi.db.dao.TodoDao
+import com.example.newmvi.db.entities.asTodoEntity
 import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.domain.repositories.TodoRepo
 import com.example.newmvi.mvi.BaseInteractor
@@ -12,23 +14,19 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class TodoEditorInsertTodoToDBInPositionInteractor @Inject constructor(
-    private val repo: TodoRepo
+class TodoEditorUpdateTodoInDbInteractor @Inject constructor(
+    private val todoDao: TodoDao
 ) : BaseInteractor<TodoEditorEvent, TodoEditorState> {
-
-    operator fun invoke(todo: Todo, position: Int) {
-        repo.insertTodoToDBInPosition(todo, position)
-    }
 
     override fun invoke(
         event: Flow<TodoEditorEvent>,
         state: Flow<TodoEditorState>
     ): Flow<TodoEditorEvent> {
-        return event.filterIsInstance<TodoEditorEvent.InsertTodoInPosition>()
+        return event.filterIsInstance<TodoEditorEvent.UpdateTodoInDb>()
             .map {
-                repo.insertTodoToDBInPosition(it.todo, it.position)
-                TodoEditorEvent.InsertedTodoInPosition
-            }.flowOn(Dispatchers.Default) // IO
+                todoDao.update(it.todo.asTodoEntity())
+                TodoEditorEvent.UpdatedTodoInDb
+            }.flowOn(Dispatchers.IO)
     }
 
 }

@@ -8,14 +8,10 @@ import com.example.newmvi.navigation.BaseScreen
 
 class TodoEditorScreen(
     private val todo: Todo,
-    private val position: Int,
 ) : BaseScreen {
 
     override fun navigateTo(navController: NavController) {
-        navController.navigate(R.id.todoEditorFragment, bundleOf(
-            "todo" to todo,
-            "position" to position,
-        ))
+        navController.navigate(R.id.todoEditorFragment, bundleOf("todo" to todo))
     }
 
 }

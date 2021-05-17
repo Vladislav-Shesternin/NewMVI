@@ -1,38 +1,27 @@
 package com.example.newmvi.ui.fragments.todoEditor
 
 import com.example.newmvi.mvi.BaseReducer
+import com.example.newmvi.ui.fragments.todoEditor.TodoEditorEvent.*
 
 class TodoEditorReducer : BaseReducer<TodoEditorEvent, TodoEditorState> {
 
     override val initialState: TodoEditorState
-        get() = TodoEditorState(
-            isLoading = false,
-            color = 0,
-            todoList = emptyList()
-        )
+        get() = TodoEditorState.Default
 
     override fun reduce(event: TodoEditorEvent, state: TodoEditorState): TodoEditorState {
         return when (event) {
-            is TodoEditorEvent.GetColor -> {
-                state.copy(
-                    isLoading = true,
-                    color = 0
-                )
+            is LoadColor -> {
+                TodoEditorState.LoadColor
             }
-            is TodoEditorEvent.GotColor -> {
-                state.copy(
-                    isLoading = false,
-                    color = event.color
-                )
+            is LoadedColor -> {
+                TodoEditorState.LoadedColor(event.color)
             }
-            is TodoEditorEvent.GotAllTodo -> {
-                state.copy(
-                    isLoading = false,
-                    color = 0,
-                    todoList = event.todoList
-                )
+            is UpdateTodoInDb -> {
+                TodoEditorState.UpdateTodoInDb(event.todo)
             }
-            else -> state
+            is UpdatedTodoInDb -> {
+                TodoEditorState.UpdatedTodoInDb
+            }
         }
     }
 }

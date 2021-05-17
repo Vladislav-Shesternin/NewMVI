@@ -1,6 +1,8 @@
 package com.example.newmvi.domain.interactors.todoList
 
-import com.example.newmvi.SubDB
+import com.example.newmvi.db.dao.TodoDao
+import com.example.newmvi.db.entities.asTodoEntityList
+import com.example.newmvi.db.entities.asTodoList
 import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.domain.repositories.TodoRepo
 import com.example.newmvi.mvi.BaseInteractor
@@ -16,7 +18,8 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TodoListGetTodoListInteractor @Inject constructor(
-    private val repo: TodoRepo
+    private val repo: TodoRepo,
+    private val todoDao: TodoDao,
 ) : BaseInteractor<TodoListEvent, TodoListState> {
 
     override fun invoke(
@@ -26,21 +29,17 @@ class TodoListGetTodoListInteractor @Inject constructor(
         return event.filterIsInstance<TodoListEvent.GetTodoList>()
             .map {
                 TodoListEvent.GotTodoList(getTodoList())
-            }.flowOn(Dispatchers.Default)
+            }.flowOn(Dispatchers.IO)
     }
 
     private suspend fun getTodoList(): List<Todo> {
-        return if (SubDB.isFirstOpen) {
-            delay(randomTime())
-            SubDB.isFirstOpen = false
-
-            val todoList = repo.getTodoList()
-            SubDB.list.addAll(todoList)
-
-            todoList
-        } else {
-            SubDB.list
+        repo.getTodoList().also {
+            if (it.isNotEmpty()) {
+                delay(randomTime())
+                todoDao.insert(it.asTodoEntityList())
+            }
         }
+        return todoDao.getAllTodo().asTodoList()
     }
 
 }

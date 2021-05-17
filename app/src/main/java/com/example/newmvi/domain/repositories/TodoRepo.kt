@@ -8,10 +8,4 @@ interface TodoRepo {
 
     fun getTodoColor(color: Int): Int
 
-    fun getAllTodoFromDB(): List<Todo>
-
-    fun insertTodoToDB(todo: Todo)
-
-    fun insertTodoToDBInPosition(todo: Todo, position: Int)
-
 }

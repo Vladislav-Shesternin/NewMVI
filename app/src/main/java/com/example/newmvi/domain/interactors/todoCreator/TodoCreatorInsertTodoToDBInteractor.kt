@@ -21,7 +21,7 @@ class TodoCreatorInsertTodoToDBInteractor @Inject constructor(
     ): Flow<TodoCreatorEvent> {
         return event.filterIsInstance<TodoCreatorEvent.InsertTodo>()
             .map {
-                repo.insertTodoToDB(it.todo)
+                //repo.insertTodoToDB(it.todo)
                 TodoCreatorEvent.InsertedTodo
             }.flowOn(Dispatchers.Default)
     }

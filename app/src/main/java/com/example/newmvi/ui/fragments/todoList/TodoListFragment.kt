@@ -1,13 +1,10 @@
 package com.example.newmvi.ui.fragments.todoList
 
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -66,8 +63,8 @@ class TodoListFragment : Fragment() {
                 viewModel.navigateToTodoCreatorFragment()
             }
 
-            recycleTodoList.initAdapter(TodoAdapter { tv, position ->
-                onTodoItemClick(tv, position)
+            recycleTodoList.initAdapter(TodoAdapter {
+                onTodoItemClick(it)
             })
 
         }
@@ -99,15 +96,8 @@ class TodoListFragment : Fragment() {
         }
     }
 
-    private fun onTodoItemClick(textView: TextView, position: Int) {
-
-        val text = textView.text.toString()
-        val color = (textView.background as ColorDrawable).color
-
-        viewModel.navigateToTodoEditorFragment(
-            todo = Todo(text, color),
-            position = position
-        )
+    private fun onTodoItemClick(todo: Todo) {
+        viewModel.navigateToTodoEditorFragment(todo)
     }
 
 }

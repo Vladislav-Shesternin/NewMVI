@@ -1,5 +1,6 @@
 package com.example.newmvi.ui.custom.todoRecycleView
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,7 @@ class TodoDiffCallback : DiffUtil.ItemCallback<Todo>() {
 }
 
 class TodoAdapter(
-    private val onItemClick: (tv: TextView, position: Int) -> Unit
+    private val onItemClick: (todo: Todo) -> Unit
 ) : ListAdapter<Todo, TodoAdapter.ViewHolder>(TodoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,14 +39,17 @@ class TodoAdapter(
         private val binding: ItemTodoBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Todo, onItemClick: (tv: TextView, position: Int) -> Unit) {
+        private val TAG = this::class.simpleName
+
+        fun bind(item: Todo, onItemClick: (todo: Todo) -> Unit) {
             binding.tvTodo.apply {
 
                 text = item.todoText
                 setBackgroundColor(item.todoColor)
 
                 setOnClickListener {
-                    onItemClick.invoke(this, adapterPosition)
+                    Log.i(TAG, "bind: ")
+                    onItemClick(item)
                 }
 
             }

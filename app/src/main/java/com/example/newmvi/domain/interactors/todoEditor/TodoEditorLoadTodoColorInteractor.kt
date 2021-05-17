@@ -2,16 +2,18 @@ package com.example.newmvi.domain.interactors.todoEditor
 
 import com.example.newmvi.domain.repositories.TodoRepo
 import com.example.newmvi.mvi.BaseInteractor
+import com.example.newmvi.randomTime
 import com.example.newmvi.ui.fragments.todoEditor.TodoEditorEvent
 import com.example.newmvi.ui.fragments.todoEditor.TodoEditorState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class TodoEditorGetAllTodoFromDBInteractor @Inject constructor(
+class TodoEditorLoadTodoColorInteractor @Inject constructor(
     private val repo: TodoRepo
 ) : BaseInteractor<TodoEditorEvent, TodoEditorState> {
 
@@ -19,9 +21,10 @@ class TodoEditorGetAllTodoFromDBInteractor @Inject constructor(
         event: Flow<TodoEditorEvent>,
         state: Flow<TodoEditorState>
     ): Flow<TodoEditorEvent> {
-        return event.filterIsInstance<TodoEditorEvent.GetAllTodo>()
+        return event.filterIsInstance<TodoEditorEvent.LoadColor>()
             .map {
-                TodoEditorEvent.GotAllTodo(repo.getAllTodoFromDB())
+                delay(randomTime())
+                TodoEditorEvent.LoadedColor(repo.getTodoColor(it.color))
             }.flowOn(Dispatchers.Default)
     }
 

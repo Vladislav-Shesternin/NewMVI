@@ -1,30 +1,32 @@
 package com.example.newmvi.domain.repositories
 
 import android.graphics.Color
-import com.example.newmvi.SubDB
+import android.provider.Settings
 import com.example.newmvi.domain.models.Todo
+import java.util.*
 import javax.inject.Inject
 
 class TodoRepoImpl @Inject constructor() : TodoRepo {
 
+    private var isFirstCall = true
+
     override fun getTodoList(): List<Todo> {
-        return List(10) { Todo("Todo: ${it.inc()}", Color.CYAN) }
+        return if (isFirstCall) {
+            isFirstCall = false
+            List(10) {
+                Todo(
+                    todoId = UUID.randomUUID(),
+                    todoText = "Todo: ${it.inc()}",
+                    todoColor = Color.CYAN
+                )
+            }
+        } else {
+            emptyList()
+        }
     }
 
     override fun getTodoColor(color: Int): Int {
         return color
-    }
-
-    override fun getAllTodoFromDB(): List<Todo> {
-        return SubDB.list
-    }
-
-    override fun insertTodoToDB(todo: Todo) {
-        SubDB.list.add(todo)
-    }
-
-    override fun insertTodoToDBInPosition(todo: Todo, position: Int) {
-        SubDB.list[position] = todo
     }
 
 }

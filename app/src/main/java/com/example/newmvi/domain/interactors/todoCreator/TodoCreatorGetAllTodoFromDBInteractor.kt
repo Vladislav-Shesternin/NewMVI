@@ -21,7 +21,8 @@ class TodoCreatorGetAllTodoFromDBInteractor @Inject constructor(
     ): Flow<TodoCreatorEvent> {
         return event.filterIsInstance<TodoCreatorEvent.GetAllTodo>()
             .map {
-                TodoCreatorEvent.GotAllTodo(repo.getAllTodoFromDB())
+                //TodoCreatorEvent.GotAllTodo(repo.getAllTodoFromDB())
+                TodoCreatorEvent.InsertedTodo
             }.flowOn(Dispatchers.Default)
     }
 

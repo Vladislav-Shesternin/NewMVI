@@ -5,11 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.newmvi.SubDB
 import com.example.newmvi.databinding.FragmentTodoCreatorBinding
 import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.ui.hideLoadingAnimation
@@ -18,6 +16,7 @@ import com.example.newmvi.ui.showLoadingAnimation
 import com.example.newmvi.viewModels.TodoCreatorViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import java.util.*
 
 @AndroidEntryPoint
 class TodoCreatorFragment : Fragment() {
@@ -27,7 +26,7 @@ class TodoCreatorFragment : Fragment() {
     private lateinit var binding: FragmentTodoCreatorBinding
     private val viewModel: TodoCreatorViewModel by viewModels()
 
-    private val todo = Todo("", 0)
+    private val todo = Todo(UUID.randomUUID(),"", 0)
 
     override fun onCreateView(
         inflater: LayoutInflater,

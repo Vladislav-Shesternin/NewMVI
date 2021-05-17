@@ -22,7 +22,6 @@ class TodoRecycleView(
     }
 
     fun setItemList(todoList: List<Todo>) {
-        Log.i(TAG, "setItemList: $adapterTodo")
         adapterTodo?.submitList(todoList)
     }
 
