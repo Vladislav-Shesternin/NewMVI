@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class TodoCreatorGetTodoColorInteractor @Inject constructor(
+class TodoCreatorLoadTodoColorInteractor @Inject constructor(
     private val repo: TodoRepo,
 ) : BaseInteractor<TodoCreatorEvent, TodoCreatorState> {
 
@@ -22,10 +22,10 @@ class TodoCreatorGetTodoColorInteractor @Inject constructor(
         event: Flow<TodoCreatorEvent>,
         state: Flow<TodoCreatorState>
     ): Flow<TodoCreatorEvent> {
-        return event.filterIsInstance<TodoCreatorEvent.GetColor>()
+        return event.filterIsInstance<TodoCreatorEvent.LoadColor>()
             .map {
                 delay(randomTime())
-                TodoCreatorEvent.GotColor(repo.getTodoColor(it.color))
+                TodoCreatorEvent.LoadedColor(repo.getTodoColor(it.color))
             }.flowOn(Dispatchers.Default)
     }
 

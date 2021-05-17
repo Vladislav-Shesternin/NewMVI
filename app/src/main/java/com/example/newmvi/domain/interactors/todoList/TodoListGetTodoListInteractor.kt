@@ -7,6 +7,7 @@ import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.domain.repositories.TodoRepo
 import com.example.newmvi.mvi.BaseInteractor
 import com.example.newmvi.randomTime
+import com.example.newmvi.todoAmount
 import com.example.newmvi.ui.fragments.todoList.TodoListEvent
 import com.example.newmvi.ui.fragments.todoList.TodoListState
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +37,8 @@ class TodoListGetTodoListInteractor @Inject constructor(
         repo.getTodoList().also {
             if (it.isNotEmpty()) {
                 delay(randomTime())
-                todoDao.insert(it.asTodoEntityList())
+                todoAmount = it.size.inc()
+                todoDao.insertList(it.asTodoEntityList())
             }
         }
         return todoDao.getAllTodo().asTodoList()

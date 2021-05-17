@@ -8,7 +8,10 @@ import kotlinx.coroutines.flow.Flow
 interface TodoDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(todoList: List<TodoEntity>)
+    fun insertList(todoList: List<TodoEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(todoList: TodoEntity)
 
     @Update
     fun update(todo: TodoEntity)

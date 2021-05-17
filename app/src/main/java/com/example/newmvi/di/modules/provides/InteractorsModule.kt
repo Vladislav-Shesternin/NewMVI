@@ -1,8 +1,7 @@
 package com.example.newmvi.di.modules.provides
 
-import com.example.newmvi.domain.interactors.todoCreator.TodoCreatorGetAllTodoFromDBInteractor
-import com.example.newmvi.domain.interactors.todoCreator.TodoCreatorGetTodoColorInteractor
-import com.example.newmvi.domain.interactors.todoCreator.TodoCreatorInsertTodoToDBInteractor
+import com.example.newmvi.domain.interactors.todoCreator.TodoCreatorLoadTodoColorInteractor
+import com.example.newmvi.domain.interactors.todoCreator.TodoCreatorInsertTodoInDbInteractor
 import com.example.newmvi.domain.interactors.todoEditor.TodoEditorLoadTodoColorInteractor
 import com.example.newmvi.domain.interactors.todoEditor.TodoEditorUpdateTodoInDbInteractor
 import com.example.newmvi.mvi.BaseInteractor
@@ -32,14 +31,12 @@ object InteractorsModule {
 
     @Provides
     fun provideSetBaseInteractorCreator(
-        getTodoColor: TodoCreatorGetTodoColorInteractor,
-        getAllTodoFromDB: TodoCreatorGetAllTodoFromDBInteractor,
-        insertTodoToDB: TodoCreatorInsertTodoToDBInteractor,
+        getTodoColor: TodoCreatorLoadTodoColorInteractor,
+        insertTodoInDB: TodoCreatorInsertTodoInDbInteractor,
     ): Set<BaseInteractor<TodoCreatorEvent, TodoCreatorState>> {
         return setOf(
             getTodoColor,
-            getAllTodoFromDB,
-            insertTodoToDB,
+            insertTodoInDB,
         )
     }
 
