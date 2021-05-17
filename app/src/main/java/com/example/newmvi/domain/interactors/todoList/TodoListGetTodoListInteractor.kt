@@ -1,8 +1,5 @@
 package com.example.newmvi.domain.interactors.todoList
 
-import com.example.newmvi.db.dao.TodoDao
-import com.example.newmvi.db.entities.asTodoEntityList
-import com.example.newmvi.db.entities.asTodoList
 import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.domain.repositories.TodoRepo
 import com.example.newmvi.mvi.BaseInteractor
@@ -19,8 +16,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TodoListGetTodoListInteractor @Inject constructor(
-    private val repo: TodoRepo,
-    private val todoDao: TodoDao,
+    private val todoRepo: TodoRepo,
 ) : BaseInteractor<TodoListEvent, TodoListState> {
 
     override fun invoke(
@@ -34,14 +30,14 @@ class TodoListGetTodoListInteractor @Inject constructor(
     }
 
     private suspend fun getTodoList(): List<Todo> {
-        repo.getTodoList().also {
+        todoRepo.getTodoList().also {
             if (it.isNotEmpty()) {
                 delay(randomTime())
                 todoAmount = it.size.inc()
-                todoDao.insertList(it.asTodoEntityList())
+                todoRepo.insertTodoList(it)
             }
         }
-        return todoDao.getAllTodo().asTodoList()
+        return todoRepo.getAllTodo()
     }
 
 }

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "104477579509",
+    "project_id": "newmvi",
+    "storage_bucket": "newmvi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104477579509:android:0fd68a6767eb92d1238dbc",
+        "android_client_info": {
+          "package_name": "com.example.newmvi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104477579509-9u04vej66s4f0nkp2r9u76jcj6sub5p5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.newmvi",
+            "certificate_hash": "3141c670f8c17489a6ee643e7dac184501593888"
+          }
+        },
+        {
+          "client_id": "104477579509-6s9920eogvcgfh2ns1v090sv5jlrrgkl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8PFjqPr9bf5bxHYw8y4lpvtvqku4eZyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104477579509-6s9920eogvcgfh2ns1v090sv5jlrrgkl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
