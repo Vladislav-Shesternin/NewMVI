@@ -7,10 +7,6 @@ import android.view.View
 import com.airbnb.lottie.LottieAnimationView
 import com.example.newmvi.R
 
-// ------------------------------------------------------------
-//                  Lottie CheckBox
-// ------------------------------------------------------------
-
 private var lottieAnimationView: LottieAnimationView? = null
 
 fun LottieAnimationView.mark(block: (Int) -> Unit) {
@@ -35,7 +31,6 @@ fun LottieAnimationView.mark(block: (Int) -> Unit) {
     }
 }
 
-
 private fun showCheckBoxAnimation(lottie: LottieAnimationView) {
     lottie.apply {
         speed = 1f
@@ -49,10 +44,6 @@ private fun hideCheckBoxAnimation(lottie: LottieAnimationView) {
         playAnimation()
     }
 }
-
-// ------------------------------------------------------------
-//                  Lottie ProgressBar
-// ------------------------------------------------------------
 
 fun LottieAnimationView.showLoadingAnimation() {
     visibility = View.VISIBLE

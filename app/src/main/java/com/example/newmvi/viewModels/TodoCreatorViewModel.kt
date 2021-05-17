@@ -1,12 +1,10 @@
 package com.example.newmvi.viewModels
 
-import com.example.newmvi.domain.interactors.todoCreator.TodoCreatorGetAllTodoFromDBInteractor
-import com.example.newmvi.domain.interactors.todoCreator.TodoCreatorGetTodoColorInteractor
-import com.example.newmvi.domain.interactors.todoCreator.TodoCreatorInsertTodoToDBInteractor
-import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.base.BaseViewModel
-import com.example.newmvi.navigation.NavigationCommand
+import com.example.newmvi.domain.models.Todo
+import com.example.newmvi.mvi.BaseInteractor
 import com.example.newmvi.navigation.BaseRouter
+import com.example.newmvi.navigation.NavigationCommand
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorEvent
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorReducer
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorState
@@ -15,13 +13,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodoCreatorViewModel @Inject constructor(
-    getTodoColor: TodoCreatorGetTodoColorInteractor,
-    getAllTodoFromDB: TodoCreatorGetAllTodoFromDBInteractor,
-    insertTodoToDB: TodoCreatorInsertTodoToDBInteractor,
-    private val router: BaseRouter
+    interactors: @JvmSuppressWildcards Set<BaseInteractor<TodoCreatorEvent, TodoCreatorState>>,
+    private val router: BaseRouter,
 ) : BaseViewModel<TodoCreatorEvent, TodoCreatorState>(
-    interactors = setOf(getTodoColor, getAllTodoFromDB, insertTodoToDB),
-    reducer = TodoCreatorReducer()
+    interactors = interactors,
+    reducer = TodoCreatorReducer(),
 ) {
 
     val getTodoColor: (color: Int) -> Unit = {

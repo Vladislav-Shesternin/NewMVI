@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.newmvi.databinding.FragmentTodoListBinding
 import com.example.newmvi.domain.models.Todo
+import com.example.newmvi.ui.custom.todoRecycleView.TodoAdapter
 import com.example.newmvi.ui.hideLoadingAnimation
 import com.example.newmvi.ui.showLoadingAnimation
 import com.example.newmvi.viewModels.TodoListViewModel
@@ -65,12 +66,9 @@ class TodoListFragment : Fragment() {
                 viewModel.navigateToTodoCreatorFragment()
             }
 
-            recycleTodoList.setItemClick { textView, position ->
-                onTodoItemClick(
-                    textView,
-                    position
-                )
-            }
+            recycleTodoList.initAdapter(TodoAdapter { tv, position ->
+                onTodoItemClick(tv, position)
+            })
 
         }
     }
