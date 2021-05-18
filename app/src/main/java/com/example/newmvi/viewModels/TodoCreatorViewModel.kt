@@ -5,7 +5,6 @@ import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.mvi.BaseInteractor
 import com.example.newmvi.navigation.BaseRouter
 import com.example.newmvi.navigation.NavigationCommand
-import com.example.newmvi.todoAmount
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorEvent
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorReducer
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorState
@@ -26,7 +25,6 @@ class TodoCreatorViewModel @Inject constructor(
     }
 
     fun insertTodoInDb(todo: Todo) {
-        ++todoAmount
         setEvent(TodoCreatorEvent.InsertTodo(todo))
     }
 

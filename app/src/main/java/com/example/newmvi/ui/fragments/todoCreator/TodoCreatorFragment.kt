@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.newmvi.databinding.FragmentTodoCreatorBinding
 import com.example.newmvi.domain.models.Todo
-import com.example.newmvi.todoAmount
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorState.*
 import com.example.newmvi.ui.hideLoadingAnimation
 import com.example.newmvi.ui.mark
@@ -28,7 +27,7 @@ class TodoCreatorFragment : Fragment() {
     private lateinit var binding: FragmentTodoCreatorBinding
     private val viewModel: TodoCreatorViewModel by viewModels()
 
-    private val todo = Todo(UUID.randomUUID(), "TODO: $todoAmount", 0)
+    private val todo = Todo(UUID.randomUUID(), "TODO:", 0)
 
     override fun onCreateView(
         inflater: LayoutInflater,

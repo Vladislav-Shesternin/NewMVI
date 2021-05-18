@@ -1,18 +1,17 @@
 package com.example.newmvi.domain.repositories
 
 import com.example.newmvi.domain.models.Todo
+import kotlinx.coroutines.flow.Flow
 
 interface TodoRepo {
 
-    fun getTodoList(): List<Todo>
+    fun loadTodoList()
 
     fun getTodoColor(color: Int): Int
-
-    fun insertTodoList(todoList: List<Todo>)
 
     fun insertTodo(todo: Todo)
 
     fun updateTodo(todo: Todo)
 
-    fun getAllTodo(): List<Todo>
+    fun getAllTodo(): Flow<List<Todo>>
 }

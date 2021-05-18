@@ -1,28 +1,21 @@
 package com.example.newmvi.ui.fragments.todoList
 
 import com.example.newmvi.mvi.BaseReducer
+import com.example.newmvi.ui.fragments.todoList.TodoListEvent.LoadTodoList
+import com.example.newmvi.ui.fragments.todoList.TodoListEvent.LoadedTodoList
 
 class TodoListReducer: BaseReducer<TodoListEvent, TodoListState> {
 
     override val initialState: TodoListState
-        get() = TodoListState(
-            isLoading = false,
-            todoList = emptyList()
-        )
+        get() = TodoListState.Default
 
     override fun reduce(event: TodoListEvent, state: TodoListState): TodoListState {
         return when(event){
-            is TodoListEvent.GetTodoList -> {
-                state.copy(
-                    isLoading = true,
-                    todoList = emptyList()
-                )
+            is LoadTodoList -> {
+                TodoListState.LoadTodoList
             }
-            is TodoListEvent.GotTodoList -> {
-                state.copy(
-                    isLoading = false,
-                    todoList = event.todoList
-                )
+            is LoadedTodoList -> {
+                TodoListState.LoadedTodoList(event.todoList)
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.newmvi.db.entities
+package com.example.newmvi.db.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

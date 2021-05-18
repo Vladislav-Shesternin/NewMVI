@@ -22,8 +22,8 @@ class TodoListViewModel @Inject constructor(
     reducer = TodoListReducer()
 ) {
 
-    fun getTodoList() {
-        setEvent(TodoListEvent.GetTodoList)
+    fun loadTodoList() {
+        setEvent(TodoListEvent.LoadTodoList)
     }
 
     fun navigateToTodoCreatorFragment() {

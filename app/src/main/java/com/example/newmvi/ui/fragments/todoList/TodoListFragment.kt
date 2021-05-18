@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.newmvi.databinding.FragmentTodoListBinding
 import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.ui.custom.todoRecycleView.TodoAdapter
+import com.example.newmvi.ui.fragments.todoList.TodoListState.*
 import com.example.newmvi.ui.hideLoadingAnimation
 import com.example.newmvi.ui.showLoadingAnimation
 import com.example.newmvi.viewModels.TodoListViewModel
@@ -39,7 +40,7 @@ class TodoListFragment : Fragment() {
 
         initComponentsUI()
 
-        viewModel.getTodoList()
+        viewModel.loadTodoList()
 
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
@@ -70,28 +71,22 @@ class TodoListFragment : Fragment() {
         }
     }
 
-    private fun render(state: TodoListState) {
+    private suspend fun render(state: TodoListState) {
         when (state) {
-            TodoListState(
-                isLoading = false,
-                todoList = emptyList()
-            ) -> {
+            is Default -> {
                 Log.i(TAG, "render: Default")
             }
-            TodoListState(
-                isLoading = true,
-                todoList = emptyList()
-            ) -> {
+            is LoadTodoList -> {
                 Log.i(TAG, "render: Loading ...")
                 binding.lottieProgress.showLoadingAnimation()
             }
-            TodoListState(
-                isLoading = false,
-                todoList = state.todoList
-            ) -> {
-                Log.i(TAG, "render: Got todoList: ${state.todoList}")
+            is LoadedTodoList -> {
                 binding.lottieProgress.hideLoadingAnimation()
-                binding.recycleTodoList.setItemList(state.todoList)
+
+                state.todoList.collect {
+                    Log.i(TAG, "render: Loaded list: $it")
+                    binding.recycleTodoList.setItemList(it)
+                }
             }
         }
     }

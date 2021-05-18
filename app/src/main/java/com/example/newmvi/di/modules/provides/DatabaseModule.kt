@@ -2,8 +2,8 @@ package com.example.newmvi.di.modules.provides
 
 import android.content.Context
 import androidx.room.Room
-import com.example.newmvi.db.TodoDatabase
-import com.example.newmvi.db.dao.TodoDao
+import com.example.newmvi.db.room.TodoDatabase
+import com.example.newmvi.db.room.dao.TodoDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

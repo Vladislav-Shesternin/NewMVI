@@ -2,10 +2,14 @@ package com.example.newmvi.ui
 
 import android.animation.ValueAnimator
 import android.graphics.Color
+import android.graphics.Color.parseColor
+import android.graphics.Color.rgb
+import android.graphics.ColorSpace
 import android.util.Log
 import android.view.View
 import com.airbnb.lottie.LottieAnimationView
 import com.example.newmvi.R
+import com.google.android.gms.common.util.Hex
 
 private var lottieAnimationView: LottieAnimationView? = null
 
@@ -27,6 +31,8 @@ fun LottieAnimationView.mark(block: (Int) -> Unit) {
             R.id.lottie_check_box_purple -> Color.MAGENTA
             else -> Color.TRANSPARENT
         }
+
+        Log.i("TodoRepoImpl", "mark: $color")
         block.invoke(color)
     }
 }

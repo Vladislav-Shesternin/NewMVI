@@ -1,4 +1,4 @@
-package com.example.newmvi.db.convertors
+package com.example.newmvi.db.room.convertors
 
 import androidx.room.TypeConverter
 import java.util.*
