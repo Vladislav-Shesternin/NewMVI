@@ -27,7 +27,7 @@ class TodoCreatorFragment : Fragment() {
     private lateinit var binding: FragmentTodoCreatorBinding
     private val viewModel: TodoCreatorViewModel by viewModels()
 
-    private val todo = Todo(UUID.randomUUID(), "TODO:", 0)
+    private val todo = Todo(UUID.randomUUID(), "", 0)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,6 +61,7 @@ class TodoCreatorFragment : Fragment() {
         binding.apply {
 
             ibConfirm.setOnClickListener {
+                todo.todoText = editTodo.text.toString()
                 viewModel.insertTodoInDb(todo)
             }
 
@@ -89,6 +90,8 @@ class TodoCreatorFragment : Fragment() {
                 binding.apply {
                     tvTodo.visibility = View.INVISIBLE
 
+                    editTodo.visibility = View.INVISIBLE
+
                     ibConfirm.visibility = View.INVISIBLE
 
                     lottieProgress.showLoadingAnimation()
@@ -106,6 +109,8 @@ class TodoCreatorFragment : Fragment() {
                         visibility = View.VISIBLE
                         setBackgroundColor(state.color)
                     }
+
+                    editTodo.visibility = View.VISIBLE
 
                     ibConfirm.visibility = View.VISIBLE
                 }

@@ -67,18 +67,22 @@ class TodoEditorFragment : Fragment() {
             this.includeTodoCreator.also { include ->
                 include.tvTodo.apply {
                     visibility = View.VISIBLE
-                    text = todo.todoText
                     setBackgroundColor(todo.todoColor)
                 }
 
+                include.editTodo.apply {
+                    visibility = View.VISIBLE
+                    setText(todo.todoText)
+                }
                 initLottieCheckBoxes(include)
 
                 include.ibConfirm.setOnClickListener {
+                    todo.todoText = include.editTodo.text.toString()
                     viewModel.updateTodoInDb(todo)
                 }
             }
-
         }
+
     }
 
     private fun initLottieCheckBoxes(binding: FragmentTodoCreatorBinding) {
@@ -101,6 +105,8 @@ class TodoEditorFragment : Fragment() {
 
                 binding.includeTodoCreator.apply {
                     tvTodo.visibility = View.INVISIBLE
+
+                    editTodo.visibility = View.INVISIBLE
 
                     ibConfirm.visibility = View.INVISIBLE
 
