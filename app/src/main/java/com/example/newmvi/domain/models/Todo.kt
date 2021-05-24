@@ -8,5 +8,5 @@ import java.util.*
 data class Todo(
     var todoId: UUID,
     var todoText: String,
-    var todoColor: Int,
+    var todoColor: String,
 ) : Parcelable

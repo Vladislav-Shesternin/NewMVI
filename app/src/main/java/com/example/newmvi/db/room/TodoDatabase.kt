@@ -7,7 +7,7 @@ import com.example.newmvi.db.room.convertors.UUIDConvertor
 import com.example.newmvi.db.room.dao.TodoDao
 import com.example.newmvi.db.room.entities.TodoEntity
 
-@Database(entities = [TodoEntity::class], version = 2, exportSchema = false)
+@Database(entities = [TodoEntity::class], version = 3, exportSchema = false)
 @TypeConverters(UUIDConvertor::class)
 abstract class TodoDatabase : RoomDatabase() {
 

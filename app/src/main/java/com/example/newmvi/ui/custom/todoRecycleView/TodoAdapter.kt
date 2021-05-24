@@ -1,10 +1,8 @@
 package com.example.newmvi.ui.custom.todoRecycleView
 
-import android.util.Log
+import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -45,12 +43,9 @@ class TodoAdapter(
             binding.tvTodo.apply {
 
                 text = item.todoText
-                setBackgroundColor(item.todoColor)
+                setBackgroundColor(Color.parseColor(item.todoColor))
 
-                setOnClickListener {
-                    Log.i(TAG, "bind: ")
-                    onItemClick(item)
-                }
+                setOnClickListener { onItemClick(item) }
 
             }
         }

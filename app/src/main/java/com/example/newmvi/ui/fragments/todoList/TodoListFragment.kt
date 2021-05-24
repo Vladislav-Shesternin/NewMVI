@@ -84,8 +84,6 @@ class TodoListFragment : Fragment() {
             is LoadedTodoList -> {
                 binding.lottieProgress.hideLoadingAnimation()
 
-                logVlad("RENDER: ${state.todoList}")
-
                 Log.i(TAG, "render: Loaded list: ${state.todoList}")
                 binding.recycleTodoList.setItemList(state.todoList)
             }

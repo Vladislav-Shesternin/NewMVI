@@ -17,6 +17,6 @@ interface TodoRepo {
 
     suspend fun getTodoList(): List<Todo>
 
-    suspend fun getColor(color: Int): Int
+    suspend fun getColor(color: String): String
 
 }

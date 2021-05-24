@@ -7,7 +7,7 @@ sealed class TodoCreatorState : BaseState {
     object Default : TodoCreatorState()
 
     object LoadColor : TodoCreatorState()
-    data class LoadedColor(val color: Int) : TodoCreatorState()
+    data class LoadedColor(val color: String) : TodoCreatorState()
 
     data class InsertTodo(val todo: Todo) : TodoCreatorState()
     object InsertedTodo : TodoCreatorState()

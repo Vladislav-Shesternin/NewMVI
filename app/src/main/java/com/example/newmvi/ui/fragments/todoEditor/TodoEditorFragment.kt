@@ -1,16 +1,16 @@
 package com.example.newmvi.ui.fragments.todoEditor
 
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.newmvi.databinding.FragmentTodoCreatorBinding
 import com.example.newmvi.databinding.FragmentTodoEditorBinding
+import com.example.newmvi.domain.interactors.todoList.printVlad
 import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.ui.fragments.todoEditor.TodoEditorState.*
 import com.example.newmvi.ui.hideLoadingAnimation
@@ -65,20 +65,21 @@ class TodoEditorFragment : Fragment() {
         binding.apply {
 
             this.includeTodoCreator.also { include ->
-                include.tvTodo.apply {
+                include.viewTodo.apply {
                     visibility = View.VISIBLE
-                    setBackgroundColor(todo.todoColor)
+                    setBackgroundColor(Color.parseColor(todo.todoColor))
                 }
 
                 include.editTodo.apply {
                     visibility = View.VISIBLE
                     setText(todo.todoText)
                 }
+
                 initLottieCheckBoxes(include)
 
                 include.ibConfirm.setOnClickListener {
                     todo.todoText = include.editTodo.text.toString()
-                    viewModel.updateTodoInDb(todo)
+                    viewModel.updateTodo(todo)
                 }
             }
         }
@@ -87,24 +88,24 @@ class TodoEditorFragment : Fragment() {
 
     private fun initLottieCheckBoxes(binding: FragmentTodoCreatorBinding) {
         binding.apply {
-            lottieCheckBoxRed.mark(viewModel.getTodoColor)
-            lottieCheckBoxGreen.mark(viewModel.getTodoColor)
-            lottieCheckBoxBlue.mark(viewModel.getTodoColor)
-            lottieCheckBoxYellow.mark(viewModel.getTodoColor)
-            lottieCheckBoxPurple.mark(viewModel.getTodoColor)
+            lottieCheckBoxRed.mark(viewModel.getColor)
+            lottieCheckBoxGreen.mark(viewModel.getColor)
+            lottieCheckBoxBlue.mark(viewModel.getColor)
+            lottieCheckBoxYellow.mark(viewModel.getColor)
+            lottieCheckBoxPurple.mark(viewModel.getColor)
         }
     }
 
     private fun render(state: TodoEditorState) {
         when (state) {
             is Default -> {
-                Log.i(TAG, "render: Default")
+                printVlad("render: Default")
             }
             is LoadColor -> {
-                Log.i(TAG, "render: Loading ...")
+                printVlad("render: Loading ...")
 
                 binding.includeTodoCreator.apply {
-                    tvTodo.visibility = View.INVISIBLE
+                    viewTodo.visibility = View.INVISIBLE
 
                     editTodo.visibility = View.INVISIBLE
 
@@ -114,25 +115,27 @@ class TodoEditorFragment : Fragment() {
                 }
             }
             is LoadedColor -> {
-                Log.i(TAG, "render: Loaded color: ${state.color}")
+                printVlad("render: Loaded color: ${state.color}")
 
                 todo.todoColor = state.color
 
                 binding.includeTodoCreator.apply {
                     lottieProgress.hideLoadingAnimation()
 
-                    tvTodo.apply {
+                    viewTodo.apply {
                         visibility = View.VISIBLE
-                        setBackgroundColor(state.color)
+                        setBackgroundColor(Color.parseColor(state.color))
                     }
+
+                    editTodo.visibility = View.VISIBLE
 
                     ibConfirm.visibility = View.VISIBLE
                 }
             }
-            is UpdateTodoInDb -> {
-                Log.i(TAG, "render: Update todo in DB: ${state.todo}")
+            is UpdateTodo -> {
+                printVlad("render: Update todo: ${state.todo}")
             }
-            is UpdatedTodoInDb -> {
+            is UpdatedTodo -> {
                 viewModel.navigateBack()
             }
         }

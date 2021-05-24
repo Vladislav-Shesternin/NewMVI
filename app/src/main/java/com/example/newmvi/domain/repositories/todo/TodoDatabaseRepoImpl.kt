@@ -32,7 +32,7 @@ class TodoDatabaseRepoImpl @Inject constructor(
         return todoDao.getAllTodo().asTodoList()
     }
 
-    override suspend fun getColor(color: Int): Int {
+    override suspend fun getColor(color: String): String {
         throw UnsupportedOperationException("${this::class.simpleName} not intended for getColor")
     }
 

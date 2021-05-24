@@ -5,8 +5,8 @@ import com.example.newmvi.mvi.BaseEvent
 import com.example.newmvi.ui.fragments.todoEditor.TodoEditorEvent
 
 sealed class TodoCreatorEvent : BaseEvent {
-    data class LoadColor(val color: Int) : TodoCreatorEvent()
-    data class LoadedColor(val color: Int) : TodoCreatorEvent()
+    data class LoadColor(val color: String) : TodoCreatorEvent()
+    data class LoadedColor(val color: String) : TodoCreatorEvent()
 
     data class InsertTodo(val todo: Todo) : TodoCreatorEvent()
     object InsertedTodo : TodoCreatorEvent()

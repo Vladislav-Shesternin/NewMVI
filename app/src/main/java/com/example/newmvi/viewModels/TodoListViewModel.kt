@@ -1,10 +1,10 @@
 package com.example.newmvi.viewModels
 
-import com.example.newmvi.domain.interactors.todoList.TodoListGetTodoListInteractor
-import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.base.BaseViewModel
-import com.example.newmvi.navigation.NavigationCommand
+import com.example.newmvi.domain.models.Todo
+import com.example.newmvi.mvi.BaseInteractor
 import com.example.newmvi.navigation.BaseRouter
+import com.example.newmvi.navigation.NavigationCommand
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorScreen
 import com.example.newmvi.ui.fragments.todoEditor.TodoEditorScreen
 import com.example.newmvi.ui.fragments.todoList.TodoListEvent
@@ -15,10 +15,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodoListViewModel @Inject constructor(
-    getTodoList: TodoListGetTodoListInteractor,
+    interactors: @JvmSuppressWildcards Set<BaseInteractor<TodoListEvent, TodoListState>>,
     private val router: BaseRouter,
 ) : BaseViewModel<TodoListEvent, TodoListState>(
-    interactors = setOf(getTodoList),
+    interactors = interactors,
     reducer = TodoListReducer()
 ) {
 

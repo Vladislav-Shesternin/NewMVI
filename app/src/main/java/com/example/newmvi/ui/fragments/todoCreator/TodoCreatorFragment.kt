@@ -1,5 +1,6 @@
 package com.example.newmvi.ui.fragments.todoCreator
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.newmvi.databinding.FragmentTodoCreatorBinding
+import com.example.newmvi.domain.interactors.todoList.printVlad
 import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorState.*
 import com.example.newmvi.ui.hideLoadingAnimation
@@ -27,7 +29,7 @@ class TodoCreatorFragment : Fragment() {
     private lateinit var binding: FragmentTodoCreatorBinding
     private val viewModel: TodoCreatorViewModel by viewModels()
 
-    private val todo = Todo(UUID.randomUUID(), "", 0)
+    private val todo = Todo(UUID.randomUUID(), "", "")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,7 +64,7 @@ class TodoCreatorFragment : Fragment() {
 
             ibConfirm.setOnClickListener {
                 todo.todoText = editTodo.text.toString()
-                viewModel.insertTodoInDb(todo)
+                viewModel.insertTodo(todo)
             }
 
             initLottieCheckBoxes(this)
@@ -82,13 +84,12 @@ class TodoCreatorFragment : Fragment() {
     private fun render(state: TodoCreatorState) {
         when (state) {
             is Default -> {
-                Log.i("TodoListFragment", "render: Default")
+
             }
             is LoadColor -> {
-                Log.i("TodoListFragment", "render: Loading ...")
 
                 binding.apply {
-                    tvTodo.visibility = View.INVISIBLE
+                    viewTodo.visibility = View.INVISIBLE
 
                     editTodo.visibility = View.INVISIBLE
 
@@ -98,16 +99,14 @@ class TodoCreatorFragment : Fragment() {
                 }
             }
             is LoadedColor -> {
-                Log.i("TodoListFragment", "render: Got color: ${state.color}")
-
                 todo.todoColor = state.color
 
                 binding.apply {
                     lottieProgress.hideLoadingAnimation()
 
-                    tvTodo.apply {
+                    viewTodo.apply {
                         visibility = View.VISIBLE
-                        setBackgroundColor(state.color)
+                        setBackgroundColor(Color.parseColor(state.color))
                     }
 
                     editTodo.visibility = View.VISIBLE
@@ -116,11 +115,9 @@ class TodoCreatorFragment : Fragment() {
                 }
             }
             is InsertTodo -> {
-                Log.i(TAG, "render: Insert todo: ${state.todo}")
+
             }
             is InsertedTodo -> {
-                Log.i(TAG, "render: Inserted todo")
-
                 viewModel.navigateBack()
             }
         }

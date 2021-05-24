@@ -16,7 +16,7 @@ data class TodoEntity(
     var todoText: String,
 
     @ColumnInfo(name = "color")
-    var todoColor: Int,
+    var todoColor: String,
 
     )
 

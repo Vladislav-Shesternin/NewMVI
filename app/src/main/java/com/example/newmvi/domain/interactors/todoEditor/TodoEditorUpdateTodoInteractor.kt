@@ -12,18 +12,18 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class TodoEditorUpdateTodoInDbInteractor @Inject constructor(
-    @QualTodoFirebaseRealtimeRepo private val repo: TodoRepo
+class TodoEditorUpdateTodoInteractor @Inject constructor(
+    @QualTodoFirebaseRealtimeRepo private val firebaseRepo: TodoRepo
 ) : BaseInteractor<TodoEditorEvent, TodoEditorState> {
 
     override fun invoke(
         event: Flow<TodoEditorEvent>,
         state: Flow<TodoEditorState>
     ): Flow<TodoEditorEvent> {
-        return event.filterIsInstance<TodoEditorEvent.UpdateTodoInDb>()
+        return event.filterIsInstance<TodoEditorEvent.UpdateTodo>()
             .map {
-                repo.updateTodo(it.todo)
-                TodoEditorEvent.UpdatedTodoInDb
+                firebaseRepo.updateTodo(it.todo)
+                TodoEditorEvent.UpdatedTodo
             }.flowOn(Dispatchers.IO)
     }
 

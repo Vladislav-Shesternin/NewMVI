@@ -13,7 +13,7 @@ import com.google.android.gms.common.util.Hex
 
 private var lottieAnimationView: LottieAnimationView? = null
 
-fun LottieAnimationView.mark(block: (Int) -> Unit) {
+fun LottieAnimationView.mark(block: (String) -> Unit) {
 
     setOnClickListener {
         lottieAnimationView?.let {
@@ -24,15 +24,14 @@ fun LottieAnimationView.mark(block: (Int) -> Unit) {
         showCheckBoxAnimation(this)
 
         val color = when (id) {
-            R.id.lottie_check_box_red -> Color.RED
-            R.id.lottie_check_box_green -> Color.GREEN
-            R.id.lottie_check_box_blue -> Color.BLUE
-            R.id.lottie_check_box_yellow -> Color.YELLOW
-            R.id.lottie_check_box_purple -> Color.MAGENTA
-            else -> Color.TRANSPARENT
+            R.id.lottie_check_box_red    -> "#eb1a13"
+            R.id.lottie_check_box_green  -> "#31d41c"
+            R.id.lottie_check_box_blue   -> "#2a96d4"
+            R.id.lottie_check_box_yellow -> "#e6ed18"
+            R.id.lottie_check_box_purple -> "#c91cd9"
+            else -> return@setOnClickListener
         }
 
-        Log.i("TodoRepoImpl", "mark: $color")
         block.invoke(color)
     }
 }

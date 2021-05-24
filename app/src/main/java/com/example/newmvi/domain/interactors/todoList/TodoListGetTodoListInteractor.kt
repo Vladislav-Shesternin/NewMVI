@@ -20,15 +20,12 @@ class TodoListGetTodoListInteractor @Inject constructor(
     ): Flow<TodoListEvent> {
         return event.filterIsInstance<TodoListEvent.LoadTodoList>()
             .onEach {
-                logVlad("Loading...")
                 todoRepo.getTodoList()
             }
             .flatMapMerge {
-                logVlad("Update")
                 todoRepo.getTodoListFlow()
             }
             .map {
-                logVlad("map = $it")
                 TodoListEvent.LoadedTodoList(it)
             }
             .flowOn(Dispatchers.IO)

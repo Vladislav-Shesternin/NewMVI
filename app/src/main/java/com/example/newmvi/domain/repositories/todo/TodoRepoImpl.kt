@@ -26,6 +26,6 @@ class TodoRepoImpl @Inject constructor() : TodoRepo {
         throw UnsupportedOperationException("${this::class.simpleName} not intended for getTodoList")
     }
 
-    override suspend fun getColor(color: Int): Int = color
+    override suspend fun getColor(color: String) = color
 
 }

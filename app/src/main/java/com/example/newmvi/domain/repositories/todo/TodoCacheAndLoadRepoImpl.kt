@@ -39,7 +39,7 @@ class TodoCacheAndLoadRepoImpl @Inject constructor(
         databaseRepo.insertTodoList(todoList)
     }
 
-    override suspend fun getColor(color: Int): Int {
+    override suspend fun getColor(color: String): String {
         throw UnsupportedOperationException("${this::class.simpleName} not intended for getColor")
     }
 

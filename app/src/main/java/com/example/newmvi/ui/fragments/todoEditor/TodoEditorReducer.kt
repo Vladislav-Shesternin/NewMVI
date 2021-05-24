@@ -16,11 +16,11 @@ class TodoEditorReducer : BaseReducer<TodoEditorEvent, TodoEditorState> {
             is LoadedColor -> {
                 TodoEditorState.LoadedColor(event.color)
             }
-            is UpdateTodoInDb -> {
-                TodoEditorState.UpdateTodoInDb(event.todo)
+            is UpdateTodo -> {
+                TodoEditorState.UpdateTodo(event.todo)
             }
-            is UpdatedTodoInDb -> {
-                TodoEditorState.UpdatedTodoInDb
+            is UpdatedTodo -> {
+                TodoEditorState.UpdatedTodo
             }
         }
     }

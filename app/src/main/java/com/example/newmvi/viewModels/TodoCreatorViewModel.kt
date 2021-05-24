@@ -20,11 +20,11 @@ class TodoCreatorViewModel @Inject constructor(
     reducer = TodoCreatorReducer(),
 ) {
 
-    val loadColor: (color: Int) -> Unit = {
+    val loadColor: (color: String) -> Unit = {
         setEvent(TodoCreatorEvent.LoadColor(it))
     }
 
-    fun insertTodoInDb(todo: Todo) {
+    fun insertTodo(todo: Todo) {
         setEvent(TodoCreatorEvent.InsertTodo(todo))
     }
 
