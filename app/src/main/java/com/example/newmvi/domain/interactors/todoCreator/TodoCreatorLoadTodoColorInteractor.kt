@@ -1,7 +1,7 @@
 package com.example.newmvi.domain.interactors.todoCreator
 
-import com.example.newmvi.domain.repositories.TodoRepo
-import com.example.newmvi.mvi.BaseEvent
+import com.example.newmvi.di.modules.qualifiers.todo.QualTodoRepo
+import com.example.newmvi.domain.repositories.todo.TodoRepo
 import com.example.newmvi.mvi.BaseInteractor
 import com.example.newmvi.randomTime
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorEvent
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TodoCreatorLoadTodoColorInteractor @Inject constructor(
-    private val repo: TodoRepo,
+    @QualTodoRepo private val repo: TodoRepo,
 ) : BaseInteractor<TodoCreatorEvent, TodoCreatorState> {
 
     override fun invoke(
@@ -25,7 +25,7 @@ class TodoCreatorLoadTodoColorInteractor @Inject constructor(
         return event.filterIsInstance<TodoCreatorEvent.LoadColor>()
             .map {
                 delay(randomTime())
-                TodoCreatorEvent.LoadedColor(repo.getTodoColor(it.color))
+                TodoCreatorEvent.LoadedColor(repo.getColor(it.color))
             }.flowOn(Dispatchers.Default)
     }
 

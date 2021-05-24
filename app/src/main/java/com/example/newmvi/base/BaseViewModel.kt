@@ -2,6 +2,7 @@ package com.example.newmvi.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.newmvi.domain.interactors.todoList.logVlad
 import com.example.newmvi.mvi.BaseEvent
 import com.example.newmvi.mvi.BaseInteractor
 import com.example.newmvi.mvi.BaseReducer

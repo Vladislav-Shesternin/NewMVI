@@ -2,6 +2,7 @@ package com.example.newmvi.db.firebaseRealtime.models
 
 import android.graphics.Color
 import com.example.newmvi.db.room.entities.TodoEntity
+import com.example.newmvi.domain.models.Todo
 import java.util.*
 
 data class TodoModel(
@@ -10,8 +11,8 @@ data class TodoModel(
     val color: String = "",
 )
 
-fun TodoModel.asTodoEntity(): TodoEntity {
-    return TodoEntity(
+fun TodoModel.asTodo(): Todo {
+    return Todo(
         todoId = UUID.fromString(id),
         todoText = text,
         todoColor = Color.parseColor(color)

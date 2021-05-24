@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.newmvi.databinding.FragmentTodoListBinding
+import com.example.newmvi.domain.interactors.todoList.logVlad
 import com.example.newmvi.domain.models.Todo
 import com.example.newmvi.ui.custom.todoRecycleView.TodoAdapter
 import com.example.newmvi.ui.fragments.todoList.TodoListState.*
@@ -71,7 +72,7 @@ class TodoListFragment : Fragment() {
         }
     }
 
-    private suspend fun render(state: TodoListState) {
+    private fun render(state: TodoListState) {
         when (state) {
             is Default -> {
                 Log.i(TAG, "render: Default")
@@ -83,10 +84,10 @@ class TodoListFragment : Fragment() {
             is LoadedTodoList -> {
                 binding.lottieProgress.hideLoadingAnimation()
 
-                state.todoList.collect {
-                    Log.i(TAG, "render: Loaded list: $it")
-                    binding.recycleTodoList.setItemList(it)
-                }
+                logVlad("RENDER: ${state.todoList}")
+
+                Log.i(TAG, "render: Loaded list: ${state.todoList}")
+                binding.recycleTodoList.setItemList(state.todoList)
             }
         }
     }

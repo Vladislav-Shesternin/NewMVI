@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 sealed class TodoListEvent : BaseEvent {
     object LoadTodoList : TodoListEvent()
-    data class LoadedTodoList(val todoList: Flow<List<Todo>>) : TodoListEvent()
+    data class LoadedTodoList(val todoList: List<Todo>) : TodoListEvent()
 }

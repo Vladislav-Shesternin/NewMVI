@@ -8,6 +8,6 @@ sealed class TodoListState : BaseState {
     object Default : TodoListState()
 
     object LoadTodoList : TodoListState()
-    data class LoadedTodoList(val todoList: Flow<List<Todo>>) : TodoListState()
+    data class LoadedTodoList(val todoList: List<Todo>) : TodoListState()
 }
 

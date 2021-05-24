@@ -1,23 +1,17 @@
 package com.example.newmvi.domain.interactors.todoList
 
-import com.example.newmvi.domain.models.Todo
-import com.example.newmvi.domain.repositories.TodoRepo
+import android.util.Log
+import com.example.newmvi.di.modules.qualifiers.todo.QualTodoCacheAndLoadRepo
+import com.example.newmvi.domain.repositories.todo.TodoRepo
 import com.example.newmvi.mvi.BaseInteractor
-import com.example.newmvi.randomTime
 import com.example.newmvi.ui.fragments.todoList.TodoListEvent
 import com.example.newmvi.ui.fragments.todoList.TodoListState
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 class TodoListGetTodoListInteractor @Inject constructor(
-    private val todoRepo: TodoRepo,
+    @QualTodoCacheAndLoadRepo val todoRepo: TodoRepo
 ) : BaseInteractor<TodoListEvent, TodoListState> {
 
     override fun invoke(
@@ -25,14 +19,27 @@ class TodoListGetTodoListInteractor @Inject constructor(
         state: Flow<TodoListState>
     ): Flow<TodoListEvent> {
         return event.filterIsInstance<TodoListEvent.LoadTodoList>()
+            .onEach {
+                logVlad("Loading...")
+                todoRepo.getTodoList()
+            }
+            .flatMapMerge {
+                logVlad("Update")
+                todoRepo.getTodoListFlow()
+            }
             .map {
-                TodoListEvent.LoadedTodoList(loadTodoList())
-            }.flowOn(Dispatchers.IO)
+                logVlad("map = $it")
+                TodoListEvent.LoadedTodoList(it)
+            }
+            .flowOn(Dispatchers.IO)
     }
 
-    private fun loadTodoList(): Flow<List<Todo>> {
-        todoRepo.loadTodoList()
-        return todoRepo.getAllTodo()
-    }
+}
 
+fun printVlad(it: Any) {
+    Log.i("vlad", "$it")
+}
+
+fun logVlad(it: Any) {
+    Log.i("vlad", "${Thread.currentThread().name} ||| $it")
 }
