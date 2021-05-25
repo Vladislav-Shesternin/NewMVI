@@ -22,6 +22,9 @@ class TodoEditorReducer : BaseReducer<TodoEditorEvent, TodoEditorState> {
             is UpdatedTodo -> {
                 TodoEditorState.UpdatedTodo
             }
+            is UpdateError -> {
+                TodoEditorState.UpdateError
+            }
         }
     }
 }

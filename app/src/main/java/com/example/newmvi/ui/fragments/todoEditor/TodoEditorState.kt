@@ -11,4 +11,5 @@ sealed class TodoEditorState : BaseState {
 
     data class UpdateTodo(val todo: Todo) : TodoEditorState()
     object UpdatedTodo : TodoEditorState()
+    object UpdateError : TodoEditorState()
 }

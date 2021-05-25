@@ -1,4 +1,4 @@
-package com.example.newmvi.di.modules.provides
+package com.example.newmvi.di.provides
 
 import com.example.newmvi.domain.interactors.todoCreator.TodoCreatorLoadTodoColorInteractor
 import com.example.newmvi.domain.interactors.todoCreator.TodoCreatorInsertTodoInteractor

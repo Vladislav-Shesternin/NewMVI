@@ -11,4 +11,5 @@ sealed class TodoCreatorState : BaseState {
 
     data class InsertTodo(val todo: Todo) : TodoCreatorState()
     object InsertedTodo : TodoCreatorState()
+    object InsertError : TodoCreatorState()
 }

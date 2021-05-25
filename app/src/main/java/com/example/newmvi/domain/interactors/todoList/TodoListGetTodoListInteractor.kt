@@ -1,8 +1,7 @@
 package com.example.newmvi.domain.interactors.todoList
 
 import android.util.Log
-import com.example.newmvi.di.modules.qualifiers.todo.QualTodoCacheAndLoadRepo
-import com.example.newmvi.domain.repositories.todo.TodoRepo
+import com.example.newmvi.domain.repos.TodoRepo
 import com.example.newmvi.mvi.BaseInteractor
 import com.example.newmvi.ui.fragments.todoList.TodoListEvent
 import com.example.newmvi.ui.fragments.todoList.TodoListState
@@ -11,7 +10,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class TodoListGetTodoListInteractor @Inject constructor(
-    @QualTodoCacheAndLoadRepo val todoRepo: TodoRepo
+    private val repo: TodoRepo
 ) : BaseInteractor<TodoListEvent, TodoListState> {
 
     override fun invoke(
@@ -20,10 +19,10 @@ class TodoListGetTodoListInteractor @Inject constructor(
     ): Flow<TodoListEvent> {
         return event.filterIsInstance<TodoListEvent.LoadTodoList>()
             .onEach {
-                todoRepo.getTodoList()
+                repo.getTodoList()
             }
             .flatMapMerge {
-                todoRepo.getTodoListFlow()
+                repo.getTodoListFlow()
             }
             .map {
                 TodoListEvent.LoadedTodoList(it)

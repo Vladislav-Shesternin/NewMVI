@@ -9,4 +9,5 @@ sealed class TodoEditorEvent : BaseEvent {
 
     data class UpdateTodo(val todo: Todo) : TodoEditorEvent()
     object UpdatedTodo : TodoEditorEvent()
+    object UpdateError : TodoEditorEvent()
 }

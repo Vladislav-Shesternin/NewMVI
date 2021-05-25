@@ -22,6 +22,9 @@ class TodoCreatorReducer : BaseReducer<TodoCreatorEvent, TodoCreatorState> {
             is InsertedTodo -> {
                 TodoCreatorState.InsertedTodo
             }
+            is InsertError -> {
+                TodoCreatorState.InsertError
+            }
         }
     }
 

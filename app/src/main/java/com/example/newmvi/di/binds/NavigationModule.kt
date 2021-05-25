@@ -1,4 +1,4 @@
-package com.example.newmvi.di.modules.binds
+package com.example.newmvi.di.binds
 
 import com.example.newmvi.navigation.BaseRouter
 import com.example.newmvi.navigation.NavigationComponentRouter

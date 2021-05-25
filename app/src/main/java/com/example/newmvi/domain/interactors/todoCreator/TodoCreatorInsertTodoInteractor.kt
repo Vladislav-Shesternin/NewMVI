@@ -1,7 +1,6 @@
 package com.example.newmvi.domain.interactors.todoCreator
 
-import com.example.newmvi.di.modules.qualifiers.todo.QualTodoFirebaseRealtimeRepo
-import com.example.newmvi.domain.repositories.todo.TodoRepo
+import com.example.newmvi.domain.repos.TodoRepo
 import com.example.newmvi.mvi.BaseInteractor
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorEvent
 import com.example.newmvi.ui.fragments.todoCreator.TodoCreatorState
@@ -13,7 +12,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TodoCreatorInsertTodoInteractor @Inject constructor(
-    @QualTodoFirebaseRealtimeRepo private val firebaseRepo: TodoRepo
+    private val repo: TodoRepo
 ) : BaseInteractor<TodoCreatorEvent, TodoCreatorState> {
 
     override fun invoke(
@@ -22,8 +21,11 @@ class TodoCreatorInsertTodoInteractor @Inject constructor(
     ): Flow<TodoCreatorEvent> {
         return event.filterIsInstance<TodoCreatorEvent.InsertTodo>()
             .map {
-                firebaseRepo.insertTodo(it.todo)
-                TodoCreatorEvent.InsertedTodo
+                if (repo.insertTodo(it.todo)) {
+                    TodoCreatorEvent.InsertedTodo
+                }else{
+                    TodoCreatorEvent.InsertError
+                }
             }.flowOn(Dispatchers.IO)
     }
 

@@ -1,12 +1,12 @@
-package com.example.newmvi.domain.repositories.todo
+package com.example.newmvi.data
 
 import android.util.Log
 import com.example.newmvi.db.firebaseRealtime.models.TodoModel
 import com.example.newmvi.db.firebaseRealtime.models.asTodo
 import com.example.newmvi.db.firebaseRealtime.models.asTodoModel
-import com.example.newmvi.domain.interactors.todoList.logVlad
 import com.example.newmvi.domain.interactors.todoList.printVlad
 import com.example.newmvi.domain.models.Todo
+import com.example.newmvi.domain.repos.TodoRepo
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -14,7 +14,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
 
@@ -31,8 +30,6 @@ class TodoFirebaseRealtimeRepoImpl @Inject constructor(
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 val todoList = mutableListOf<Todo>()
-
-                printVlad("=========================")
 
                 snapshot.children.forEach {
                     val todoModel = it.getValue<TodoModel>() ?: return@forEach
@@ -51,29 +48,35 @@ class TodoFirebaseRealtimeRepoImpl @Inject constructor(
         return todoFlow
     }
 
-    override suspend fun insertTodo(todo: Todo) {
-        database.child("Todo/${todo.todoId}").setValue(todo.asTodoModel())
-            .addOnSuccessListener {
-                Log.i(TAG, "Success insert")
+    override suspend fun insertTodo(todo: Todo): Boolean {
+        val deferredResponse = CompletableDeferred<Boolean>()
+
+        database.child("Todo/${todo.todoId}").setValue(todo.asTodoModel()).addOnCompleteListener {
+            if (it.isSuccessful) {
+                deferredResponse.complete(true)
+            } else {
+                deferredResponse.complete(false)
             }
-            .addOnFailureListener {
-                Log.i(TAG, "Failure insert: ${it.message}")
-            }
+        }
+        return deferredResponse.await()
     }
 
     override suspend fun insertTodoList(todoList: List<Todo>) {
         throw UnsupportedOperationException("${this::class.simpleName} not intended for insertTodoList")
     }
 
-    override suspend fun updateTodo(todo: Todo) {
-        val childUpdate = mapOf(todo.todoId.toString() to todo.asTodoModel())
-        database.child("Todo").updateChildren(childUpdate)
-            .addOnSuccessListener {
-                Log.i(TAG, "Updates todo")
-            }.addOnFailureListener {
-                Log.i(TAG, "Failure todo: ${it.message}")
-            }
+    override suspend fun updateTodo(todo: Todo): Boolean {
+        val deferredResponse = CompletableDeferred<Boolean>()
 
+        val childUpdate = mapOf(todo.todoId.toString() to todo.asTodoModel())
+        database.child("Todo").updateChildren(childUpdate).addOnCompleteListener {
+            if (it.isSuccessful) {
+                deferredResponse.complete(true)
+            } else {
+                deferredResponse.complete(false)
+            }
+        }
+        return deferredResponse.await()
     }
 
     override suspend fun getTodoList(): List<Todo> {
@@ -93,7 +96,5 @@ class TodoFirebaseRealtimeRepoImpl @Inject constructor(
     }
 
 
-    override suspend fun getColor(color: String): String {
-        throw UnsupportedOperationException("${this::class.simpleName} not intended for getColor")
-    }
+    override suspend fun getColor(color: String) = color
 }

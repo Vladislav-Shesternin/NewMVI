@@ -10,4 +10,5 @@ sealed class TodoCreatorEvent : BaseEvent {
 
     data class InsertTodo(val todo: Todo) : TodoCreatorEvent()
     object InsertedTodo : TodoCreatorEvent()
+    object InsertError : TodoCreatorEvent()
 }

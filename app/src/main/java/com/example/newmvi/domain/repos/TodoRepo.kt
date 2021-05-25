@@ -1,4 +1,4 @@
-package com.example.newmvi.domain.repositories.todo
+package com.example.newmvi.domain.repos
 
 import com.example.newmvi.domain.models.Todo
 import kotlinx.coroutines.flow.Flow
@@ -9,11 +9,11 @@ interface TodoRepo {
 
     fun getTodoListFlow(): Flow<List<Todo>>
 
-    suspend fun insertTodo(todo: Todo)
+    suspend fun insertTodo(todo: Todo): Boolean
 
     suspend fun insertTodoList(todoList: List<Todo>)
 
-    suspend fun updateTodo(todo: Todo)
+    suspend fun updateTodo(todo: Todo): Boolean
 
     suspend fun getTodoList(): List<Todo>
 

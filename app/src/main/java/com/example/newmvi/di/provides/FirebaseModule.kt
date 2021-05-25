@@ -1,4 +1,4 @@
-package com.example.newmvi.di.modules.provides
+package com.example.newmvi.di.provides
 
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
